@@ -7,6 +7,8 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.earlybird.ui.main.SectionsPagerAdapter;
 
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -18,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
 
 
 
