@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Early Bird</string>
+    <string name="tab_text_1">Calendar</string>
+    <string name="tab_text_2">Goals</string>
+    <string name="tab_text_3">Account</string>
+    <string name="hint">Enter Event Description</string>
+</resources>
