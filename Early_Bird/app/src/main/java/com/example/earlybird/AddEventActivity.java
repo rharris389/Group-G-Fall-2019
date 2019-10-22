@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 
+import static java.lang.Class.forName;
 
 
 public class AddEventActivity extends Activity {
@@ -35,7 +36,7 @@ public class AddEventActivity extends Activity {
     private CheckBox eventIsGoal;
 
     Calendar calendar;
-    int currentHour, currentMinute, currentMonth, currentDay, currentYear, startDay, startMonth, startYear;
+    int currentHour, currentMinute, currentMonth, currentDay, currentYear;
     String isGoal, startTimeText, startDateText,endDateText,endTimeText,notificationDateText,notificationTimeText,
             eventNameText,eventFrequencyText,eventIdText,amPm,eventStartDateTime,eventEndDateTime,eventNotificationDateTime;
 
@@ -248,14 +249,14 @@ public class AddEventActivity extends Activity {
 
     private void addEvent_query(String eventEndDateTime, String eventFrequencyText, String eventIdText, String isGoal, String eventNameText, String eventNotificationDateTime, String eventStartDateTime) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException cnfe) {
             System.out.println("Driver not loaded");
             return;
         }
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost", "root", "GroupG");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://10.0.2.2/dbo", "root", "GroupG");
             Statement stmt = conn.createStatement();
             stmt.executeUpdate("insert into DBO.EVENT(EndDate, Frequency, Id, IsGoal, Name, NotificationDate, StartDate) " +
                     "values (" + eventEndDateTime + ", " + eventFrequencyText + ", " + eventIdText + ", '" + isGoal + "', '" + eventNameText + "', '" + eventNotificationDateTime + "', '" + eventStartDateTime + "')");
