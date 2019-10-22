@@ -50,11 +50,6 @@ public class Fragment1 extends Fragment {
         final CalendarView calendarView = View.findViewById(R.id.calendarView);
         final TextView selectedFullDate = View.findViewById(R.id.selectedFullDate);
 
-       // final List<String> calendarStrings = new ArrayList<>();
-      //  final int[] days = new int[30];
-       // final int[] months = new int[12];
-        //final int[] years = new int[10];
-
         calendar = Calendar.getInstance();
         currentDay = calendar.get(Calendar.DAY_OF_MONTH);
         currentMonth = calendar.get(Calendar.MONTH);
@@ -75,16 +70,6 @@ public class Fragment1 extends Fragment {
                 if (dayEvents.getVisibility() == View.GONE) {
                     dayEvents.setVisibility(View.VISIBLE);
                 }
-                //for (int i = 0; i < 30; i++) {
-                //    if (days[i] == currentDay) {
-                 //       for (int j = 0; i < 12; i++) {
-                   //         if (months[j] == currentMonth) {
-                   //             return;
-                    //        }
-                   //     }
-                 //      return;
-                //    }
-             //   }
             }
         });
         final Button addEventButton = View.findViewById(R.id.addEventButton);
