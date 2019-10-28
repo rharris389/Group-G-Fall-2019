@@ -50,6 +50,7 @@ def AddEvent(request):
         eventData = JSONParser().parse(request)
         event = EventSerializer(data=eventData)
         if event.is_valid():
+            event.save()
             return HttpResponse(status=status.HTTP_201_CREATED)
         else:
             return  HttpResponse(status=status.HTTP_400_BAD_REQUEST)
@@ -59,11 +60,21 @@ def AddEvent(request):
 @csrf_exempt
 def GetEvents(request, start, end):
     try:
-        events = Event.objects.values.filter(StartDate__gte=start, EndDate__lt=end)
+        events = Event.objects.filter(StartDate__gte=start, StartDate__lt=end)
     except Event.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        return JsonResponse(events.data)
+        eventsData = EventSerializer(events, many=True)
+        return JsonResponse(eventsData.data, safe=False)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
+def GetAllEvents(request):
+    if request.method == 'GET':
+        events = Event.objects.all()
+        eventsData = EventSerializer(events, many=True)
+        return JsonResponse(eventsData.data, safe=False)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
