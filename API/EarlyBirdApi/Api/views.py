@@ -33,6 +33,15 @@ def GetUser(request, username):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
+def GetAllUsers(request):
+    if request.method == 'GET':
+        users = User.objects.all()
+        usersData = UserSerializer(users, many=True)
+        return JsonResponse(usersData.data, safe=False)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
 def GetPasswd(request, username):
     try:
         user = User.objects.get(Username=username)
