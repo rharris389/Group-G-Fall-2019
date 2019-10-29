@@ -87,7 +87,7 @@ def GetPasswd(request, username):
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        return HttpResponse(user.Passwd)
+        return JsonResponse(user.Passwd, safe=False)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
@@ -162,5 +162,23 @@ def GetAllEvents(request):
         events = Event.objects.all().distinct()
         eventsData = EventSerializer(events, many=True)
         return JsonResponse(eventsData.data, safe=False)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
+def DeleteEventForUser(request, username, name, start, end):
+    try:
+        user = User.objects.get(Username=username)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    try:
+        event = Event.objects.get(Name=name, StartDate=start, EndDate=end, UserId=user.Id)
+    except Event.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        Event.objects.filter(Name=name, StartDate=start, EndDate=end, UserId=user.Id).delete()
+        return HttpResponse(status=status.HTTP_200_OK)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
