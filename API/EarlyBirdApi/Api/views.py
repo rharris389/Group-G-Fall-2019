@@ -35,6 +35,7 @@ def AddUser(request):
 # HTTP Get request
 # http://127.0.0.1:8000/GetUser/<username>/
 # returns a single User object
+# username: the username of the user
 @csrf_exempt
 def GetUser(request, username):
     try:
@@ -51,6 +52,7 @@ def GetUser(request, username):
 # HTTP Delete
 # http://127.0.0.1:8000/DeleteUser/<username>/
 # deletes a user from the database
+# username: the username of the user
 @csrf_exempt
 def DeleteUser(request, username):
     try:
@@ -79,6 +81,7 @@ def GetAllUsers(request):
 # HTTP Get request
 # http://127.0.0.1:8000/GetPasswd/<username>/
 # returns the user's password
+# username: the username of the user
 @csrf_exempt
 def GetPasswd(request, username):
     try:
@@ -119,8 +122,10 @@ def AddEvent(request):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 # HTTP Get request
-# http://127.0.0.1:8000/GetEventsInTimeRange/<beginning_time_inclusive>/<ending_time_exclusive>/
+# http://127.0.0.1:8000/GetEventsInTimeRange/<start>/<end>/
 # returns a list of Event objects within the time range
+# start: DateTime represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
+# end: DateTime represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
 @csrf_exempt
 def GetEventsInTimeRange(request, start, end):
     try:
@@ -135,8 +140,11 @@ def GetEventsInTimeRange(request, start, end):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 # HTTP Get
-# http://127.0.0.1:8000/GetEventsInTimeRangeForUser/<username>/<beginning_time_inclusive>/<ending_time_exclusive>/
+# http://127.0.0.1:8000/GetEventsInTimeRangeForUser/<username>/<start>/<end>/
 # returns a list of Event objects for a user within a time range
+# username: the username of the user
+# start: DateTime represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
+# end: DateTime represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
 @csrf_exempt
 def GetEventsInTimeRangeForUser(request, username, start, end):
     try:
@@ -165,6 +173,13 @@ def GetAllEvents(request):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
+# HTTP Delete request
+# http://127.0.0.1:8000/DeleteEventForUser/<username>/<name>/<start>/<end>/
+# deletes a specific event for a given username
+# username: the username of the user
+# name: the name of the event
+# start: DateTime represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
+# end: DateTime represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
 @csrf_exempt
 def DeleteEventForUser(request, username, name, start, end):
     try:
