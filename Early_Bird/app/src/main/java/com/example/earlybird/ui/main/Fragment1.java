@@ -1,7 +1,10 @@
 package com.example.earlybird.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +21,13 @@ import java.util.Calendar;
 
 
 public class Fragment1 extends Fragment {
-
+    //SharedPreferences sharedPreferences;
     private int currentDay = 0;
     private int currentMonth = 0;
     private int currentYear = 0;
 
     Calendar calendar;
+
 
     @Nullable
     @Override
@@ -37,6 +41,11 @@ public class Fragment1 extends Fragment {
         currentDay = calendar.get(Calendar.DAY_OF_MONTH);
         currentMonth = calendar.get(Calendar.MONTH);
         currentYear = calendar.get(Calendar.YEAR);
+
+        //get logged in user from shared preferences
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Username", Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("Username", null);
+        Log.i("Username: ",username);
 
         final View dayEvents = View.findViewById(R.id.dayEvents);
 

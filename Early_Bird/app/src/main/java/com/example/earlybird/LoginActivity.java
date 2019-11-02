@@ -1,6 +1,7 @@
 package com.example.earlybird;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,8 +33,6 @@ import java.util.Base64;
 
 
 public class LoginActivity extends Activity {
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private EditText username;
     private EditText userPassword;
     private Button login;
@@ -47,9 +46,6 @@ public class LoginActivity extends Activity {
         if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-
-            sharedPreferences = getSharedPreferences("Username", MODE_PRIVATE);
-            editor = sharedPreferences.edit();
 
             username = findViewById(R.id.username);
             userPassword = findViewById(R.id.userPassword);
@@ -117,6 +113,12 @@ public class LoginActivity extends Activity {
 
                         if(storedPassword.equals(loginPasswordHash)){
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                            //save login username to shared preferences
+                            SharedPreferences sharedPreferences = getSharedPreferences("Username", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Username",usernameText);
+                            editor.apply();
                         }
                         else {
                             Toast.makeText(LoginActivity.this, "Password is Incorrect", Toast.LENGTH_SHORT).show();
