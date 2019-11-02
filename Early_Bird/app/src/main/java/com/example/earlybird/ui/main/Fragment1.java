@@ -1,37 +1,20 @@
 package com.example.earlybird.ui.main;
 
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.EditText;
-import android.widget.ListView;
-
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.earlybird.AddEventActivity;
-import com.example.earlybird.CalendarData;
-
-import com.example.earlybird.LoginActivity;
 import com.example.earlybird.R;
-import com.example.earlybird.RegistActivity;
-
-
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+
 
 
 public class Fragment1 extends Fragment {
@@ -59,9 +42,9 @@ public class Fragment1 extends Fragment {
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
-
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
                 selectedFullDate.setText("Selected Date: " + (month + 1) + "/" + dayOfMonth + "/" + year);
                 currentDay = dayOfMonth;
                 currentMonth = month;
@@ -79,9 +62,9 @@ public class Fragment1 extends Fragment {
                 Bundle extras = new Bundle();
                 Intent intent = new Intent(Fragment1.this.getActivity(), AddEventActivity.class);
 
-                extras.putInt("STARTDAY",currentDay);
-                extras.putInt("STARTMONTH",currentMonth +1);
-                extras.putInt("STARTYEAR",currentYear);
+                extras.putInt("STARTDAY", currentDay);
+                extras.putInt("STARTMONTH", currentMonth + 1);
+                extras.putInt("STARTYEAR", currentYear);
                 intent.putExtras(extras);
                 startActivity(intent);
             }

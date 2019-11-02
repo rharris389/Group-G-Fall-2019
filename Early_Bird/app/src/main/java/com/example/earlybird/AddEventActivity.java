@@ -12,14 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.example.earlybird.ui.main.Fragment1;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.Calendar;
-
-import static java.lang.Class.forName;
 
 
 public class AddEventActivity extends Activity {
@@ -37,8 +33,8 @@ public class AddEventActivity extends Activity {
 
     Calendar calendar;
     int currentHour, currentMinute, currentMonth, currentDay, currentYear;
-    String isGoal, startTimeText, startDateText,endDateText,endTimeText,notificationDateText,notificationTimeText,
-            eventNameText,eventFrequencyText,eventIdText,amPm,eventStartDateTime,eventEndDateTime,eventNotificationDateTime;
+    String isGoal, startTimeText, startDateText, endDateText, endTimeText, notificationDateText, notificationTimeText,
+            eventNameText, eventFrequencyText, eventIdText, amPm, eventStartDateTime, eventEndDateTime, eventNotificationDateTime;
 
     DatePickerDialog startDatePickerDialog;
     TimePickerDialog startTimePickerDialog;
@@ -196,13 +192,12 @@ public class AddEventActivity extends Activity {
         });
 
         eventIsGoal = findViewById(R.id.eventIsGoal);
-        eventIsGoal.setOnClickListener(new View.OnClickListener(){
+        eventIsGoal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                if(eventIsGoal.isChecked()){
+            public void onClick(View view) {
+                if (eventIsGoal.isChecked()) {
                     isGoal = "Y";
-                }
-                else{
+                } else {
                     isGoal = "N";
                 }
             }
@@ -215,7 +210,27 @@ public class AddEventActivity extends Activity {
                     Toast.makeText(AddEventActivity.this, "Event Start cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (TextUtils.isEmpty(eventStartTime.getText().toString())) {
+                    Toast.makeText(AddEventActivity.this, "Event Description cannot be empty ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(eventName.getText().toString())) {
+                    Toast.makeText(AddEventActivity.this, "Event Description cannot be empty ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(eventEndDate.getText().toString())) {
+                    Toast.makeText(AddEventActivity.this, "Event Description cannot be empty ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(eventEndTime.getText().toString())) {
+                    Toast.makeText(AddEventActivity.this, "Event Description cannot be empty ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(eventNotificationTime.getText().toString())) {
+                    Toast.makeText(AddEventActivity.this, "Event Description cannot be empty ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(eventNotificationDate.getText().toString())) {
                     Toast.makeText(AddEventActivity.this, "Event Description cannot be empty ", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -236,36 +251,26 @@ public class AddEventActivity extends Activity {
                 eventEndDateTime = endDateText + endTimeText;
                 eventNotificationDateTime = notificationDateText + notificationTimeText;
 
+                JSONObject jsonObject = new JSONObject();
+                try {
+
+                    jsonObject.put("Name", eventNameText);
+                    jsonObject.put("StartDate", eventStartDateTime);
+                    jsonObject.put("EndDate", eventEndDateTime);
+                    jsonObject.put("NotificationDate", eventNotificationDateTime);
+                    jsonObject.put("IsGoal", isGoal);
+                    jsonObject.put("Frequency", eventFrequencyText);
+
+                    //new PostClass().execute("http://10.0.2.2:8080/AddEvent/", jsonObject.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Toast.makeText(AddEventActivity.this, "Event Added", Toast.LENGTH_SHORT).show();
-
-                addEvent_query(eventEndDateTime, eventFrequencyText, eventIdText, isGoal, eventNameText, eventNotificationDateTime, eventStartDateTime);
-
+                startActivity(new Intent(AddEventActivity.this, Fragment1.class));
+                finish();
 
             }
         });
 
-    }
-
-
-    private void addEvent_query(String eventEndDateTime, String eventFrequencyText, String eventIdText, String isGoal, String eventNameText, String eventNotificationDateTime, String eventStartDateTime) {
-        try {
-            Class.forName("mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException cnfe) {
-            System.out.println("Driver not loaded");
-            return;
-        }
-
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://10.0.2.2/dbo", "root", "GroupG");
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate("insert into DBO.EVENT(EndDate, Frequency, Id, IsGoal, Name, NotificationDate, StartDate) " +
-                    "values (" + eventEndDateTime + ", " + eventFrequencyText + ", " + eventIdText + ", '" + isGoal + "', '" + eventNameText + "', '" + eventNotificationDateTime + "', '" + eventStartDateTime + "')");
-
-            conn.close();
-            stmt.close();
-        } catch (SQLException se) {
-            System.out.println("Error");
-            return;
-        }
     }
 }
