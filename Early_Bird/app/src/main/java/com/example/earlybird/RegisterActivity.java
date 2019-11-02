@@ -88,11 +88,9 @@ public class RegisterActivity extends Activity {
                         md = MessageDigest.getInstance(algorithm) ;
                     } catch( NoSuchAlgorithmException nsae) {System.out.println("No Such Algorithm Exception");}
 
-                    byte[] passwordHash = null ;
-
                     md.update(data.getBytes()) ;
 
-                    passwordHash = md.digest() ; // Perform actual hashing
+                    byte[] passwordHash = md.digest() ; // Perform actual hashing
 
                     System.out.println("Base64 hash is = " + Base64.getEncoder().encodeToString(passwordHash)) ;
                     String passwordHashSave = Base64.getEncoder().encodeToString(passwordHash);
@@ -123,13 +121,15 @@ public class RegisterActivity extends Activity {
 
                         Log.i("STATUS", String.valueOf(conn.getResponseCode()));
                         Log.i("MSG", conn.getResponseMessage());
-                        String status = String.valueOf(conn.getResponseCode());
 
-                        if(status == "200"){
-                            Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(RegisterActivity.this, "Username and/or Email has been taken, Please try again", Toast.LENGTH_SHORT).show();
+                        int responseCode = conn.getResponseCode();
+                        switch (responseCode){
+                            case 201:
+                                Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 400:
+                                Toast.makeText(RegisterActivity.this, "Username and/or Email has been taken, Please try again", Toast.LENGTH_SHORT).show();
+                                break;
                         }
 
                         conn.disconnect();

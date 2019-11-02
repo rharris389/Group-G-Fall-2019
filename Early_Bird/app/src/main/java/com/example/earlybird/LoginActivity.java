@@ -79,11 +79,10 @@ public class LoginActivity extends Activity {
                         md = MessageDigest.getInstance(algorithm) ;
                     } catch( NoSuchAlgorithmException nsae) {System.out.println("No Such Algorithm Exception");}
 
-                    byte[] passwordHash = null ;
                     //use update to add input to be hashed
                     md.update(data.getBytes()) ;
                     //Hash password
-                    passwordHash = md.digest() ;
+                    byte[] passwordHash = md.digest() ;
 
                     System.out.println("Base64 hash is = " + Base64.getEncoder().encodeToString(passwordHash)) ;
                     String loginPasswordHash = Base64.getEncoder().encodeToString(passwordHash);
