@@ -90,7 +90,10 @@ def GetPasswd(request, username):
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        return JsonResponse(user.Passwd, safe=False)
+        jsonResponse = {
+            "Passwd" : user.Passwd
+        }
+        return JsonResponse(jsonResponse)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 

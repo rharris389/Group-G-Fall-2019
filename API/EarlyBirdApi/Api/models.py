@@ -4,7 +4,7 @@ class User(models.Model):
     Id = models.AutoField(primary_key=True)
     Username = models.CharField(max_length=50, unique=True)
     Email = models.CharField(max_length=50, unique=True)
-    Passwd = models.CharField(max_length=150)
+    Passwd = models.CharField(max_length=225)
     Gender = models.CharField(max_length=15, null=True)
     FirstName = models.CharField(max_length=50)
     LastName = models.CharField(max_length=50)
