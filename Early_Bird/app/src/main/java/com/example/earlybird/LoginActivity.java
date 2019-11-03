@@ -13,20 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -65,76 +59,84 @@ public class LoginActivity extends Activity {
                         return;
                     }
                     String usernameText = username.getText().toString().trim();
-                    String userPwdText = userPassword.getText().toString().trim();
+                    String inputPwdText = userPassword.getText().toString().trim();
 
                     String algorithm = "SHA-512" ; // Algorithm being used
-                    String data = userPwdText ; //String to be hashed
+                    String data = inputPwdText ; //String to be hashed
                     MessageDigest md = null ;
 
-                    try {       //Initiate MessageDigest with SHA-512 implementation
+                    //Initiate MessageDigest with SHA-512 implementation
+                    try {
                         md = MessageDigest.getInstance(algorithm) ;
-                    } catch( NoSuchAlgorithmException nsae) {System.out.println("No Such Algorithm Exception");}
+                    }catch(NoSuchAlgorithmException nsae)
+                    {
+                        System.out.println("No Such Algorithm Exception");
+                    }
 
                     //use update to add input to be hashed
                     md.update(data.getBytes()) ;
+
                     //Hash password
                     byte[] passwordHash = md.digest() ;
 
                     System.out.println("Base64 hash is = " + Base64.getEncoder().encodeToString(passwordHash)) ;
-                    String loginPasswordHash = Base64.getEncoder().encodeToString(passwordHash);
-                    try {
+                    final String loginPasswordHash = Base64.getEncoder().encodeToString(passwordHash);
 
-                        URL url = new URL("http://10.0.2.2:8000/GetPasswd/" + usernameText + "/");
-                        conn = (HttpURLConnection) url.openConnection();
-                        conn.setRequestMethod("GET");
-                        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                        conn.setRequestProperty("Accept", "application/json");
-                        conn.setDoInput(true);
-                        conn.connect();
+                    String url = "http://10.0.2.2:8080/GetUser/" + usernameText + "/";
+                    StringRequest GetUser = new StringRequest(url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
 
-                        int responseCode = conn.getResponseCode();
-                        switch (responseCode){
-                            case 404:
-                                Toast.makeText(LoginActivity.this, "Username Does not Exist - Please Register", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 400:
-                                Toast.makeText(LoginActivity.this, "Bad Request", Toast.LENGTH_SHORT).show();
-                                break;
+                                JSONObject jsonObject = new JSONObject(response);
+
+                                //JSONArray jsonArray = jsonObject.getJSONArray(response);
+                                //for (int i = 0; i < jsonArray.length(); i++) {
+                                  //  JSONObject jo = jsonArray.getJSONObject(i);
+                                    //// Do you fancy stuff
+                                    //String password = jo.getString("Passwd");
+
+                                Integer getId = jsonObject.getInt("Id");
+                                String getUsername = jsonObject.getString("Username");
+                                String getPassword = jsonObject.getString("Passwd");
+                                String getGender = jsonObject.getString("Gender");
+                                String getFirstName = jsonObject.getString("FirstName");
+                                String getLastName = jsonObject.getString("LastName");
+
+                                //save login username to shared preferences
+                                SharedPreferences sharedPreferences = getSharedPreferences("UserId", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("UserId",getId);
+                                editor.apply();
+
+                                //Log.i("JSON", jsonObject.toString());
+                                Log.i("UserId", String.valueOf(getId));
+                                Log.i("Username", getUsername);
+                                Log.i("Password", getPassword);
+                                Log.i("Gender", getGender);
+                                Log.i("FirstName", getFirstName);
+                                Log.i("LastName", getLastName);
+
+                                if(getPassword.equals(loginPasswordHash)) {
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                }else {
+                                    Toast.makeText(LoginActivity.this, "Password is Incorrect", Toast.LENGTH_SHORT).show();
+                                }
+                                //}
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-
-                        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                        String storedPassword;
-                        storedPassword = rd.readLine();
-                        storedPassword = storedPassword.replace("\"", "");
-
-                        Log.i("data", storedPassword);
-                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                        Log.i("MSG", conn.getResponseMessage());
-
-                        if(storedPassword.equals(loginPasswordHash)){
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-                            //save login username to shared preferences
-                            SharedPreferences sharedPreferences = getSharedPreferences("Username", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Username",usernameText);
-                            editor.apply();
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //TODO distinguish handling of different errors from server: 404,400
+                            Toast.makeText(LoginActivity.this,"Username Does not Exist - Please Register", Toast.LENGTH_SHORT).show();
                         }
-                        else {
-                            Toast.makeText(LoginActivity.this, "Password is Incorrect", Toast.LENGTH_SHORT).show();
-                        }
+                    });
+                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    requestQueue.add(GetUser);
 
-                    } catch (ProtocolException e) {
-                        e.printStackTrace();
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }finally{
-                        if(conn != null){
-                            conn.disconnect();
-                        }
-                    }
                 }
             });
 
