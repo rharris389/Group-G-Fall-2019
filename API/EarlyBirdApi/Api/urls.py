@@ -12,7 +12,10 @@ urlpatterns = [
     path('GetEventsInTimeRange/<str:start>/<str:end>/', views.GetEventsInTimeRange, name='GetEventsInTimeRange'),
     path('GetEventsInTimeRangeForUser/<str:username>/<str:start>/<str:end>/', views.GetEventsInTimeRangeForUser, name='GetEventsInTimeRangeForUser'),
     path('GetAllUsers/', views.GetAllUsers, name='GetAllUsers'),
-    path('DeleteEventForUser/<str:username>/<str:name>/<str:start>/<str:end>/', views.DeleteEventForUser, name='DeleteEventForUser')
+    path('DeleteEventForUser/<str:username>/<str:name>/<str:start>/<str:end>/', views.DeleteEventForUser, name='DeleteEventForUser'),
+    path('AddTimeRestriction/', views.AddTimeRestriction, name='AddTimeRestriction'),
+    path('GetAllTimeRestrictionsForUser/<str:username>/', views.GetAllTimeRestrictionsForUser, name='GetAllTimeRestrictionsForUser'),
+    path('DeleteTimeRestrictionForUser/<str:username>/<str:start>/<str:end>/<str:frequency>/', views.DeleteTimeRestrictionForUser, name='DeleteTimeRestrictionForUser')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

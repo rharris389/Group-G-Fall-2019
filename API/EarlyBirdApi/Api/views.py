@@ -200,3 +200,70 @@ def DeleteEventForUser(request, username, name, start, end):
         return HttpResponse(status=status.HTTP_200_OK)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# HTTP Post request
+# http://127.0.0.1:8000/AddTimeRestriction/
+# adds a time restriction for a user
+# the Id column is auto created
+# e.g. body
+# {
+# "StartDate": "2019-01-01T13:00:00",
+# "EndDate": "2019-01-01T15:00:00",
+# "Frequency": "weekly",
+# "UserId": 1
+# }
+@csrf_exempt
+def AddTimeRestriction(request):
+    if request.method == 'POST':
+        timeRestrictionData = JSONParser().parse(request)
+        timeRestriction = TimeRestrictionSerializer(data=timeRestrictionData)
+        if timeRestriction.is_valid():
+            timeRestriction.save()
+            return HttpResponse(status=status.HTTP_201_CREATED)
+        else:
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# HTTP Delete request
+# http://127.0.0.1:8000/<username>/<start>/<end>/<frequency>/
+# deletes specific time restriction for user
+# username: the username of the user
+# start: DateTime type represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
+# end: DateTime type represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
+# frequency: how often the restriction repeats
+@csrf_exempt
+def DeleteTimeRestrictionForUser(request, username, start, end, frequency):
+    try:
+        user = User.objects.get(Username=username)
+        timeRestriction = TimeRestriction.objects.filter(StartDate=start, EndDate=end, Frequency=frequency, UserId=user.Id)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    except TimeRestriction.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        TimeRestriction.objects.filter(StartDate=start, EndDate=end, Frequency=frequency, UserId=user.Id).delete()
+        return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# HTTP Get request
+# http://127.0.0.1:8000/GetAllTimeRestrictionsForUser/<username>/
+# gets a list of time restrictions for a user
+# username: the username of the user
+@csrf_exempt
+def GetAllTimeRestrictionsForUser(request, username):
+    try:
+        user = User.objects.get(Username=username)
+        timeRestrictions = TimeRestriction.objects.filter(UserId=user.Id).distinct()
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    except TimeRestriction.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        timeRestictionsData = TimeRestrictionSerializer(timeRestrictions, many=True)
+        return JsonResponse(timeRestictionsData.data, safe=False)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
