@@ -13,6 +13,7 @@ urlpatterns = [
     path('GetAllUsers/', views.GetAllUsers, name='GetAllUsers'),
     path('DeleteEventForUser/<str:username>/<str:name>/<str:start>/<str:end>/', views.DeleteEventForUser, name='DeleteEventForUser'),
     path('AddTimeRestriction/', views.AddTimeRestriction, name='AddTimeRestriction'),
+    path('GetTimeRestrictionForUser/<str:username>/<str:start>/<str:end>/<str:frequency>/', views.GetTimeRestrictionForUser, name='GetTimeRestrictionForUser'),
     path('GetAllTimeRestrictionsForUser/<str:username>/', views.GetAllTimeRestrictionsForUser, name='GetAllTimeRestrictionsForUser'),
     path('DeleteTimeRestrictionForUser/<str:username>/<str:start>/<str:end>/<str:frequency>/', views.DeleteTimeRestrictionForUser, name='DeleteTimeRestrictionForUser')
 ]
