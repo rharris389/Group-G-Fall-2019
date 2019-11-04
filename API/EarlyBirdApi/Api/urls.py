@@ -6,7 +6,6 @@ urlpatterns = [
     path('AddUser/', views.AddUser, name='AddUser'),
     path('GetUser/<str:username>/', views.GetUser, name='GetUser'),
     path('DeleteUser/<str:username>/', views.DeleteUser, name='DeleteUser'),
-    path('GetPasswd/<str:username>/', views.GetPasswd, name='GetPasswd'),
     path('AddEvent/', views.AddEvent, name='AddEvent'),
     path('GetAllEvents/', views.GetAllEvents, name='GetAllEvents'),
     path('GetEventsInTimeRange/<str:start>/<str:end>/', views.GetEventsInTimeRange, name='GetEventsInTimeRange'),

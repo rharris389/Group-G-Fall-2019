@@ -78,25 +78,6 @@ def GetAllUsers(request):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
-# http://127.0.0.1:8000/GetPasswd/<username>/
-# returns the user's password
-# username: the username of the user
-@csrf_exempt
-def GetPasswd(request, username):
-    try:
-        user = User.objects.get(Username=username)
-    except User.DoesNotExist:
-        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        jsonResponse = {
-            "Passwd" : user.Passwd
-        }
-        return JsonResponse(jsonResponse)
-    else:
-        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
-
 # HTTP Post request
 # http://127.0.0.1/AddEvent/
 # adds event to the database
