@@ -275,6 +275,34 @@ def GetTimeRestrictionsInTimeRangeForUser(request, username, start, end):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 # HTTP Get request
+# http://127.0.0.1:8000/<username>/<start>/<end>/
+'''
+  Gets a list of TimeRestriction objects that have StartDate=start and EndDate=end.
+  This method is similar to GetTimeRestrictionsInTimeRangeForUser, except that it uses this logic:
+    (StartDate == start) and (EndDate == end) and (UserId == user.Id)
+  Meanwhile, GetTimeRestrictionsInTimeRangeForUser uses this logic:
+    (StartDate >= start) and (EndDate < end) and (UserId == user.Id)
+'''
+# username: the username of the user
+# start: DateTime represented as a string (e.g. 2019-01-01T13:00:00)
+# end: DateTime represented as a string (e.g. 2019-01-01T15:00:00)
+@csrf_exempt
+def GetTimeRestrictionsWithStartAndEndForUser(request, username, start, end):
+    try:
+        user = User.objects.get(Username=username)
+        timeRestrictions = TimeRestriction.objects.filter(StartDate=start, EndDate=end, UserId=user.Id).distinct()
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    except TimeRestriction.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        timeRestrictionsData = TimeRestrictionSerializer(timeRestrictions, many=True)
+        return JsonResponse(timeRestrictionsData.data, safe=False)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# HTTP Get request
 # http://127.0.0.1:8000/GetAllTimeRestrictionsForUser/<username>/
 # gets a list of time restrictions for a user
 # username: the username of the user
