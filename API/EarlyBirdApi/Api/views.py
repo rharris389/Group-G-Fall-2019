@@ -303,6 +303,27 @@ def GetTimeRestrictionsWithStartAndEndForUser(request, username, start, end):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 # HTTP Get request
+# http://127.0.0.1:8000/<username>/<frequency>/
+# returns a list of TimeRestriction objects for a user that have a specific frequency
+# username: the username of the user
+# frequency: how often the time restriction repeats
+@csrf_exempt
+def GetTimeRestrictionsWithFrequencyForUser(request, username, frequency):
+    try:
+        user = User.objects.get(Username=username)
+        timeRestrictions = TimeRestriction.objects.filter(Frequency=frequency, UserId=user.Id)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    except TimeRestriction.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        timeRestrictionsData = TimeRestrictionSerializer(timeRestrictions, many=True)
+        return JsonResponse(timeRestrictionsData.data, safe=False)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# HTTP Get request
 # http://127.0.0.1:8000/GetAllTimeRestrictionsForUser/<username>/
 # gets a list of time restrictions for a user
 # username: the username of the user

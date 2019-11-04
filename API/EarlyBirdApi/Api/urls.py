@@ -16,6 +16,7 @@ urlpatterns = [
     path('GetTimeRestrictionForUser/<str:username>/<str:start>/<str:end>/<str:frequency>/', views.GetTimeRestrictionForUser, name='GetTimeRestrictionForUser'),
     path('GetTimeRestrictionsInTimeRangeForUser/<str:username>/<str:start>/<str:end>/', views.GetTimeRestrictionsInTimeRangeForUser, name='GetTimeRestrictionInTimeRangeForUser'),
     path('GetTimeRestrictionsWithStartAndEndForUser/<str:username>/<str:start>/<str:end>/', views.GetTimeRestrictionsWithStartAndEndForUser, name='GetTimeRestrictionsWithStartAndEndForUser'),
+    path('GetTimeRestrictionsWithFrequencyForUser/<str:username>/<str:frequency>/', views.GetTimeRestrictionsWithFrequencyForUser, name='GetTimeRestrictionsWithFrequencyForUser'),
     path('GetAllTimeRestrictionsForUser/<str:username>/', views.GetAllTimeRestrictionsForUser, name='GetAllTimeRestrictionsForUser'),
     path('DeleteTimeRestrictionForUser/<str:username>/<str:start>/<str:end>/<str:frequency>/', views.DeleteTimeRestrictionForUser, name='DeleteTimeRestrictionForUser')
 ]
