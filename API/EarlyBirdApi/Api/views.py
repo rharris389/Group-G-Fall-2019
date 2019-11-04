@@ -230,6 +230,29 @@ def DeleteTimeRestrictionForUser(request, username, start, end, frequency):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 # HTTP Get request
+# http://127.0.0.1:8000/GetTimeRestrictionForUser/<username>/<start>/<end>/<frequency>/
+# gets a specific time restriction for a user
+# username: the username of the user
+# start: DateTime represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
+# end: DateTime represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
+# frequency: how often the restriction repeats
+@csrf_exempt
+def GetTimeRestrictionForUser(request, username, start, end, frequency):
+    try:
+        user = User.objects.get(Username=username)
+        timeRestriction = TimeRestriction.objects.get(StartDate=start, EndDate=end, Frequency=frequency, UserId=user.Id)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    except TimeRestriction.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        timeRestrictionData = TimeRestrictionSerializer(timeRestriction)
+        return JsonResponse(timeRestrictionData.data)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# HTTP Get request
 # http://127.0.0.1:8000/GetAllTimeRestrictionsForUser/<username>/
 # gets a list of time restrictions for a user
 # username: the username of the user
