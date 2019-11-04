@@ -6,19 +6,21 @@ from rest_framework import status
 from .models import User, Event, TimeRestriction
 from .serializers import UserSerializer, EventSerializer, TimeRestrictionSerializer
 
-# HTTP Post request
+# HTTP POST request
 # http://127.0.0.1:8000/AddUser/
-# adds user to the database
-# the Id column is auto created in the database, no need to add to JSON body
-# e.g. body
-# {
-# "Username": "test",
-# "Email": "test@gmail.com",
-# "Passwd": "idk", <----- make sure to hash this before hitting the view DO NOT PUT IN PLAIN TEXT
-# "Gender": "none",
-# "FirstName": "test",
-# "LastName": "person"
-# }
+'''
+  Adds user to the database.
+  The Id column is auto created in the database, no need to add to JSON body.
+  e.g. request:
+    {
+      "Username": "test",
+      "Email": "test@gmail.com",
+      "Passwd": "idk", <----- make sure to hash this before hitting the view DO NOT PUT IN PLAIN TEXT
+      "Gender": "none",
+      "FirstName": "test",
+      "LastName": "person"
+    }
+'''
 @csrf_exempt
 def AddUser(request):
     if request.method == 'POST':
@@ -32,10 +34,10 @@ def AddUser(request):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
+# HTTP GET request
 # http://127.0.0.1:8000/GetUser/<username>/
-# returns a single User object
-# username: the username of the user
+# Returns a single User object.
+# username: the Username of the User
 @csrf_exempt
 def GetUser(request, username):
     try:
@@ -49,10 +51,10 @@ def GetUser(request, username):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Delete
+# HTTP DELETE request
 # http://127.0.0.1:8000/DeleteUser/<username>/
-# deletes a user from the database
-# username: the username of the user
+# Deletes a User from the database.
+# username: the Username of the User
 @csrf_exempt
 def DeleteUser(request, username):
     try:
@@ -66,9 +68,9 @@ def DeleteUser(request, username):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
+# HTTP GET request
 # http://127.0.0.1:8000/GetAllUsers/
-# returns a list of User objects
+# Returns a list of all User objects.
 @csrf_exempt
 def GetAllUsers(request):
     if request.method == 'GET':
@@ -78,20 +80,22 @@ def GetAllUsers(request):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Post request
+# HTTP POST request
 # http://127.0.0.1/AddEvent/
-# adds event to the database
-# the Id column is auto created, no need to add it to JSON body
-# e.g. request
-# {
-# "Name": "test event",
-# "StartDate": "2019-01-01T13:00:00",
-# "EndDate": "2019-01-01T14:00:00",
-# "NotificationDate": "2019-01-01T12:45:00",
-# "IsGoal": false,
-# "Frequency": "weekly",
-# "UserId": 1
-# }
+'''
+  Adds event to the database.
+  The Id column is auto created, no need to add it to JSON body.
+  e.g. request:
+    {
+      "Name": "test event",
+      "StartDate": "2019-01-01T13:00:00",
+      "EndDate": "2019-01-01T14:00:00",
+      "NotificationDate": "2019-01-01T12:45:00",
+      "IsGoal": false,
+      "Frequency": "weekly",
+      "UserId": 1
+    }
+'''
 @csrf_exempt
 def AddEvent(request):
     if request.method == 'POST':
@@ -105,9 +109,9 @@ def AddEvent(request):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
+# HTTP GET request
 # http://127.0.0.1:8000/GetEventsInTimeRange/<start>/<end>/
-# returns a list of Event objects within the time range
+# Returns a list of Event objects within the time range.
 # start: DateTime represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
 # end: DateTime represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
 @csrf_exempt
@@ -123,10 +127,10 @@ def GetEventsInTimeRange(request, start, end):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get
+# HTTP GET request
 # http://127.0.0.1:8000/GetEventsInTimeRangeForUser/<username>/<start>/<end>/
-# returns a list of Event objects for a user within a time range
-# username: the username of the user
+# Returns a list of Event objects for a User within a time range.
+# username: the Username of the User
 # start: DateTime represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
 # end: DateTime represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
 @csrf_exempt
@@ -145,9 +149,9 @@ def GetEventsInTimeRangeForUser(request, username, start, end):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
+# HTTP GET request
 # http://127.0.0.1:8000/GetAllEvents/
-# returns a list of all Event objects in the database
+# Returns a list of all Event objects.
 @csrf_exempt
 def GetAllEvents(request):
     if request.method == 'GET':
@@ -157,11 +161,11 @@ def GetAllEvents(request):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Delete request
+# HTTP DELETE request
 # http://127.0.0.1:8000/DeleteEventForUser/<username>/<name>/<start>/<end>/
-# deletes a specific event for a given username
-# username: the username of the user
-# name: the name of the event
+# Deletes a specific Event for a given User.
+# username: the Username of the User
+# name: the Name of the Event
 # start: DateTime represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
 # end: DateTime represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
 @csrf_exempt
@@ -182,17 +186,19 @@ def DeleteEventForUser(request, username, name, start, end):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Post request
+# HTTP POST request
 # http://127.0.0.1:8000/AddTimeRestriction/
-# adds a time restriction for a user
-# the Id column is auto created
-# e.g. body
-# {
-# "StartDate": "2019-01-01T13:00:00",
-# "EndDate": "2019-01-01T15:00:00",
-# "Frequency": "weekly",
-# "UserId": 1
-# }
+'''
+  Adds a TimeRestriction for a User.
+  The Id column is auto created.
+  e.g. request
+  {
+  "StartDate": "2019-01-01T13:00:00",
+  "EndDate": "2019-01-01T15:00:00",
+  "Frequency": "weekly",
+  "UserId": 1
+  }
+'''
 @csrf_exempt
 def AddTimeRestriction(request):
     if request.method == 'POST':
@@ -206,10 +212,10 @@ def AddTimeRestriction(request):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Delete request
+# HTTP DELETE request
 # http://127.0.0.1:8000/<username>/<start>/<end>/<frequency>/
-# deletes specific time restriction for user
-# username: the username of the user
+# Deletes a specific TimeRestriction for a User.
+# username: the Username of the User
 # start: DateTime type represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
 # end: DateTime type represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
 # frequency: how often the restriction repeats
@@ -229,10 +235,10 @@ def DeleteTimeRestrictionForUser(request, username, start, end, frequency):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
+# HTTP GET request
 # http://127.0.0.1:8000/GetTimeRestrictionForUser/<username>/<start>/<end>/<frequency>/
-# gets a specific time restriction for a user
-# username: the username of the user
+# gets a specific TimeRestriction for a User.
+# username: the Username of the User
 # start: DateTime represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
 # end: DateTime represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
 # frequency: how often the restriction repeats
@@ -252,10 +258,10 @@ def GetTimeRestrictionForUser(request, username, start, end, frequency):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
+# HTTP GET request
 # http://127.0.0.1:8000/<username>/<start>/<end>/
-# returns a list of TimeRestriction objects inside a specific time range for a user
-# username: the username of the user
+# Returns a list of TimeRestriction objects inside a specific time range for a User.
+# username: the Username of the User
 # start: DateTime represented as a string (e.g. 2019-01-01T13:00:00) this field is inclusive
 # end: DateTime represented as a string (e.g. 2019-01-01T15:00:00) this field is exclusive
 @csrf_exempt
@@ -274,7 +280,7 @@ def GetTimeRestrictionsInTimeRangeForUser(request, username, start, end):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
+# HTTP GET request
 # http://127.0.0.1:8000/<username>/<start>/<end>/
 '''
   Gets a list of TimeRestriction objects that have StartDate=start and EndDate=end.
@@ -283,7 +289,7 @@ def GetTimeRestrictionsInTimeRangeForUser(request, username, start, end):
   Meanwhile, GetTimeRestrictionsInTimeRangeForUser uses this logic:
     (StartDate >= start) and (EndDate < end) and (UserId == user.Id)
 '''
-# username: the username of the user
+# username: the Username of the User
 # start: DateTime represented as a string (e.g. 2019-01-01T13:00:00)
 # end: DateTime represented as a string (e.g. 2019-01-01T15:00:00)
 @csrf_exempt
@@ -302,10 +308,10 @@ def GetTimeRestrictionsWithStartAndEndForUser(request, username, start, end):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
+# HTTP GET request
 # http://127.0.0.1:8000/<username>/<frequency>/
-# returns a list of TimeRestriction objects for a user that have a specific frequency
-# username: the username of the user
+# Returns a list of TimeRestriction objects for a User that have a specific Frequency.
+# username: the Username of the User
 # frequency: how often the time restriction repeats
 @csrf_exempt
 def GetTimeRestrictionsWithFrequencyForUser(request, username, frequency):
@@ -323,10 +329,10 @@ def GetTimeRestrictionsWithFrequencyForUser(request, username, frequency):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-# HTTP Get request
+# HTTP GET request
 # http://127.0.0.1:8000/GetAllTimeRestrictionsForUser/<username>/
-# gets a list of time restrictions for a user
-# username: the username of the user
+# Gets a list of TimeRestrictions for a User.
+# username: the Username of the User
 @csrf_exempt
 def GetAllTimeRestrictionsForUser(request, username):
     try:
