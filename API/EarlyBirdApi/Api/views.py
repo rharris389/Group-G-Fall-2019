@@ -3,8 +3,8 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from .models import User, Event, TimeRestriction
-from .serializers import UserSerializer, EventSerializer, TimeRestrictionSerializer
+from .models import User, Event, Goal, TimeRestriction
+from .serializers import UserSerializer, EventSerializer, GoalSerializer, TimeRestrictionSerializer
 
 # HTTP POST request
 # http://127.0.0.1:8000/AddUser/
@@ -183,6 +183,17 @@ def DeleteEventForUser(request, username, name, start, end):
     if request.method == 'DELETE':
         Event.objects.filter(Name=name, StartDate=start, EndDate=end, UserId=user.Id).delete()
         return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
+def AddGoal(request):
+    if request.method == 'POST':
+        goalData = JSONParser().parse(request)
+        goal = GoalSerializer(data=goalData)
+        if goal.is_valid():
+            goal.save()
+            return HttpResponse(status=status.HTTP_201_CREATED)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 

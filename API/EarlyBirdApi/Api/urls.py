@@ -12,6 +12,7 @@ urlpatterns = [
     path('GetEventsInTimeRangeForUser/<str:username>/<str:start>/<str:end>/', views.GetEventsInTimeRangeForUser, name='GetEventsInTimeRangeForUser'),
     path('GetAllUsers/', views.GetAllUsers, name='GetAllUsers'),
     path('DeleteEventForUser/<str:username>/<str:name>/<str:start>/<str:end>/', views.DeleteEventForUser, name='DeleteEventForUser'),
+    path('AddGoal/', views.AddGoal, name='AddGoal'),
     path('AddTimeRestriction/', views.AddTimeRestriction, name='AddTimeRestriction'),
     path('GetTimeRestrictionForUser/<str:username>/<str:start>/<str:end>/<str:frequency>/', views.GetTimeRestrictionForUser, name='GetTimeRestrictionForUser'),
     path('GetTimeRestrictionsInTimeRangeForUser/<str:username>/<str:start>/<str:end>/', views.GetTimeRestrictionsInTimeRangeForUser, name='GetTimeRestrictionInTimeRangeForUser'),
