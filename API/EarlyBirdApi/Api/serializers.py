@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Event, TimeRestriction
+from .models import User, Event, Goal, TimeRestriction
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,6 +10,11 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('Id', 'Name', 'StartDate', 'EndDate', 'NotificationDate', 'IsGoal', 'Frequency', 'UserId')
+
+class GoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goal
+        field = ('Id', 'Name', 'IsCompleted', 'Notes', 'UserId')
 
 class TimeRestrictionSerializer(serializers.ModelSerializer):
     class Meta:
