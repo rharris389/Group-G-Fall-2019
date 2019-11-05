@@ -172,11 +172,9 @@ def GetAllEvents(request):
 def DeleteEventForUser(request, username, name, start, end):
     try:
         user = User.objects.get(Username=username)
+        event = Event.objects.get(Name=name, StartDate=start, EndDate=end, UserId=user.Id)
     except User.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-
-    try:
-        event = Event.objects.get(Name=name, StartDate=start, EndDate=end, UserId=user.Id)
     except Event.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
@@ -186,6 +184,18 @@ def DeleteEventForUser(request, username, name, start, end):
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
+# HTTP POST request
+# http://127.0.0.1:8000/AddGoal/
+'''
+  Adds Goal to the database.
+  e.g. request:
+    {
+      "Name": "test",
+      "IsCompleted": false,
+      "Notes": "Do by Saturday.",
+      "UserId": 1
+    }
+'''
 @csrf_exempt
 def AddGoal(request):
     if request.method == 'POST':
@@ -194,6 +204,65 @@ def AddGoal(request):
         if goal.is_valid():
             goal.save()
             return HttpResponse(status=status.HTTP_201_CREATED)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# HTTP DELETE request
+# http://127.0.0.1:8000/DeleteGoalForUser/<username>/<name>/<isCompleted>/<notes>/
+# Deletes a specific Goal.
+# username: the Username of the User
+# name: the Name of the Goal
+# isCompleted: boolean on whether the Goal has been completed or not
+# notes: the Notes associated with the Goal
+@csrf_exempt
+def DeleteGoalForUser(request, username, name, isCompleted, notes):
+    try:
+        user = User.objects.get(Username=username)
+        goal = Goal.objects.get(Name=name, IsCompleted=isCompleted, Notes=notes, UserId=user.Id)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    except Goal.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        Goal.objects.get(Name=name, IsCompleted=isCompleted, Notes=notes, UserId=user.Id).delete()
+        return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# HTTP GET request
+# http://127.0.0.1:8000/GetAllCompletedGoalsForUser/<username>/
+# Returns a list of all completed Goals for the User.
+# username: the Username of the User
+@csrf_exempt
+def GetAllCompletedGoalsForUser(request, username):
+    try:
+        user = User.objects.get(Username=username)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        goals = Goal.objects.filter(IsCompleted=True, UserId=user.Id).distinct()
+        goalsData = GoalSerializer(goals, many=True)
+        return JsonResponse(goalsData.data, safe=False)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# HTTP GET request
+# http://127.0.0.1:8000/GetAllIncompletedGoalsForUser/<username>/
+# Returns a list of all incompleted Goals for the User.
+# username: the Username of the User
+@csrf_exempt
+def GetAllIncompletedGoalsForUser(request, username):
+    try:
+        user = User.objects.get(Username=username)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        goals = Goal.objects.filter(IsCompleted=False, UserId=user.Id)
+        goalsData = GoalSerializer(goals, many=True)
+        return JsonResponse(goalsData.data, safe=False)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
