@@ -18,8 +18,17 @@ class Event(models.Model):
     StartDate = models.DateTimeField()
     EndDate = models.DateTimeField(null=True)
     NotificationDate = models.DateTimeField(null=True)
-    IsGoal = models.BooleanField()
     Frequency = models.CharField(max_length=15)
+    UserId = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.Name}'
+
+class Goal(models.Model):
+    Id = models.AutoField(primary_key=True)
+    Name = models.CharField(max_length=50)
+    IsCompleted = models.BooleanField()
+    Notes = models.CharField(max_length=300)
     UserId = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
