@@ -82,7 +82,7 @@ public class LoginActivity extends Activity {
                     System.out.println("Base64 hash is = " + Base64.getEncoder().encodeToString(passwordHash)) ;
                     final String loginPasswordHash = Base64.getEncoder().encodeToString(passwordHash);
 
-                    String url = "http://10.0.2.2:8080/GetUser/" + usernameText + "/";
+                    String url = "http://10.0.2.2:8000/GetUser/" + usernameText + "/";
                     StringRequest GetUser = new StringRequest(url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -96,22 +96,30 @@ public class LoginActivity extends Activity {
                                     //// Do you fancy stuff
                                     //String password = jo.getString("Passwd");
 
-                                Integer getId = jsonObject.getInt("Id");
+                                Integer getUserId = jsonObject.getInt("Id");
                                 String getUsername = jsonObject.getString("Username");
+                                String getEmail = jsonObject.getString("Email");
                                 String getPassword = jsonObject.getString("Passwd");
                                 String getGender = jsonObject.getString("Gender");
                                 String getFirstName = jsonObject.getString("FirstName");
                                 String getLastName = jsonObject.getString("LastName");
 
                                 //save login username to shared preferences
-                                SharedPreferences sharedPreferences = getSharedPreferences("UserId", Context.MODE_PRIVATE);
+                                SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putInt("UserId",getId);
+                                editor.putInt("UserId",getUserId);
+                                editor.putString("Username", getUsername);
+                                editor.putString("Email", getEmail);
+                                editor.putString("Password", getPassword);
+                                editor.putString("Gender", getGender);
+                                editor.putString("FirstName", getFirstName);
+                                editor.putString("LastName", getLastName);
                                 editor.apply();
 
                                 //Log.i("JSON", jsonObject.toString());
-                                Log.i("UserId", String.valueOf(getId));
+                                Log.i("UserId", String.valueOf(getUserId));
                                 Log.i("Username", getUsername);
+                                Log.i("Email", getEmail);
                                 Log.i("Password", getPassword);
                                 Log.i("Gender", getGender);
                                 Log.i("FirstName", getFirstName);

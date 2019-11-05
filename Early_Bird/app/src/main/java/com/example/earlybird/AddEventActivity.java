@@ -2,9 +2,12 @@ package com.example.earlybird;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -12,9 +15,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import com.example.earlybird.ui.main.Fragment1;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.Calendar;
 
 
@@ -33,8 +41,11 @@ public class AddEventActivity extends Activity {
 
     Calendar calendar;
     int currentHour, currentMinute, currentMonth, currentDay, currentYear;
-    String isGoal, startTimeText, startDateText, endDateText, endTimeText, notificationDateText, notificationTimeText,
-            eventNameText, eventFrequencyText, eventIdText, amPm, eventStartDateTime, eventEndDateTime, eventNotificationDateTime;
+    String eventStartDateSave,getEventStartDateTimeSave, eventEndDateSave, eventEndDateTimeSave, eventNotificationDateSave,
+            eventNotificationDateTimeSave, startDateText, endTimeText, eventNameText, eventFrequencyText, eventIdText, amPm,
+            eventStartDateTime, eventEndDateTime, eventNotificationDateTime;
+    Boolean isGoal;
+
 
     DatePickerDialog startDatePickerDialog;
     TimePickerDialog startTimePickerDialog;
@@ -59,7 +70,8 @@ public class AddEventActivity extends Activity {
         eventFrequency = findViewById(R.id.eventFrequency);
         addEvent = findViewById(R.id.addEvent);
         eventStartDate = findViewById(R.id.eventStartDate);
-        eventStartDate.setText(startMonth + "/" + startDay + "/" + startYear);
+        eventStartDate.setText(startYear + "/" + startMonth + "/" + startDay);
+        eventStartDateSave = (startYear + "-" + startMonth + "-" + startDay);
         eventStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,8 +83,8 @@ public class AddEventActivity extends Activity {
                 startDatePickerDialog = new DatePickerDialog(AddEventActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-
-                        eventStartDate.setText(month + 1 + "/" + dayOfMonth + "/" + year);
+                        eventStartDate.setText(year + "/" + (month + 1) + "/" + dayOfMonth);
+                        eventStartDateSave = (year + "-" + (month + 1) + "-" + dayOfMonth);
                     }
                 }, currentYear, currentMonth, currentDay);
                 startDatePickerDialog.show();
@@ -96,6 +108,7 @@ public class AddEventActivity extends Activity {
                         } else {
                             amPm = "AM";
                         }
+                        getEventStartDateTimeSave = (String.format("%02d:%02d", hourOfDay, minutes));
                         eventStartTime.setText(String.format("%02d:%02d", hourOfDay, minutes) + amPm);
                     }
                 }, 0, 0, false);//, , currentMinute, false);
@@ -116,7 +129,8 @@ public class AddEventActivity extends Activity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
 
-                        eventEndDate.setText(month + 1 + "/" + dayOfMonth + "/" + year);
+                        eventEndDate.setText(year + "/" + (month + 1) + "/" + dayOfMonth);
+                        eventEndDateSave = (year + "-" + (month + 1) + "-" + dayOfMonth);
                     }
                 }, currentYear, currentMonth, currentDay);
                 endDatePickerDialog.show();
@@ -140,6 +154,7 @@ public class AddEventActivity extends Activity {
                         } else {
                             amPm = "AM";
                         }
+                        eventEndDateTimeSave = String.format("%02d:%02d", hourOfDay, minutes);
                         eventEndTime.setText(String.format("%02d:%02d", hourOfDay, minutes) + amPm);
                     }
                 }, 0, 0, false);
@@ -159,7 +174,8 @@ public class AddEventActivity extends Activity {
                 notificationDatePickerDialog = new DatePickerDialog(AddEventActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        eventNotificationDate.setText(month + 1 + "/" + dayOfMonth + "/" + year);
+                        eventNotificationDate.setText(year + "/" + (month + 1) + "/" + dayOfMonth);
+                        eventNotificationDateSave = (year + "-" + (month + 1) + "-" + dayOfMonth);
 
                     }
                 }, currentYear, currentMonth, currentDay);
@@ -185,6 +201,7 @@ public class AddEventActivity extends Activity {
                             amPm = "AM";
                         }
                         eventNotificationTime.setText(String.format("%02d:%02d", hourOfDay, minutes) + amPm);
+                        eventNotificationDateTimeSave = (String.format("%02d:%02d", hourOfDay, minutes));
                     }
                 }, 0, 0, false);
                 notificationTimePickerDialog.show();
@@ -196,9 +213,9 @@ public class AddEventActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (eventIsGoal.isChecked()) {
-                    isGoal = "Y";
+                    isGoal = true;
                 } else {
-                    isGoal = "N";
+                    isGoal = false;
                 }
             }
         });
@@ -234,26 +251,31 @@ public class AddEventActivity extends Activity {
                     Toast.makeText(AddEventActivity.this, "Event Description cannot be empty ", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                startDateText = eventStartDate.getText().toString().trim();
-                startTimeText = eventStartTime.getText().toString().trim();
-
-                endDateText = eventEndTime.getText().toString().trim();
-                endTimeText = eventEndDate.getText().toString().trim();
-
-                notificationDateText = eventNotificationDate.getText().toString().trim();
-                notificationTimeText = eventNotificationTime.getText().toString().trim();
 
                 eventNameText = eventName.getText().toString().trim();
                 eventFrequencyText = eventFrequency.getText().toString().trim();
                 eventIdText = startDateText + endTimeText;
 
-                eventStartDateTime = startDateText + startTimeText;
-                eventEndDateTime = endDateText + endTimeText;
-                eventNotificationDateTime = notificationDateText + notificationTimeText;
+                eventStartDateTime = eventStartDateSave + "T" + getEventStartDateTimeSave + ":00";
+                eventEndDateTime = eventEndDateSave + "T" + eventEndDateTimeSave + ":00";
+                eventNotificationDateTime = eventNotificationDateSave + "T" + eventNotificationDateTimeSave + ":00";
 
-                JSONObject jsonObject = new JSONObject();
+                //TODO: add GetPreference to submit username along with add Event Request, check format of python view in django
                 try {
 
+                    URL url = new URL("http://10.0.2.2:8000/AddEvent/");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    JSONObject jsonObject = new JSONObject();
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+                    Integer getUserId = sharedPreferences.getInt("UserId", 0);
+
+                    jsonObject.put("UserId", getUserId);
                     jsonObject.put("Name", eventNameText);
                     jsonObject.put("StartDate", eventStartDateTime);
                     jsonObject.put("EndDate", eventEndDateTime);
@@ -261,16 +283,37 @@ public class AddEventActivity extends Activity {
                     jsonObject.put("IsGoal", isGoal);
                     jsonObject.put("Frequency", eventFrequencyText);
 
-                    //new PostClass().execute("http://10.0.2.2:8080/AddEvent/", jsonObject.toString());
+                    Log.i("JSON", jsonObject.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+
+                    os.writeBytes(jsonObject.toString());
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG", conn.getResponseMessage());
+
+                    int responseCode = conn.getResponseCode();
+                    switch (responseCode){
+                        case 201:
+                            Toast.makeText(AddEventActivity.this, "Event Added", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(AddEventActivity.this, MainActivity.class));
+                            break;
+                        case 400:
+                            Toast.makeText(AddEventActivity.this, "Event Could not be added, please try again", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                Toast.makeText(AddEventActivity.this, "Event Added", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(AddEventActivity.this, Fragment1.class));
                 finish();
-
             }
         });
-
     }
 }
