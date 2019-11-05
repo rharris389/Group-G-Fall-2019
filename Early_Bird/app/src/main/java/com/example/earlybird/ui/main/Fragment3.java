@@ -1,7 +1,6 @@
 package com.example.earlybird.ui.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.example.earlybird.AddEventActivity;
 import com.example.earlybird.R;
 
 
@@ -58,7 +54,7 @@ public class Fragment3 extends Fragment {
         Log.i("FirstName", getFirstName);
         Log.i("LastName", getLastName);
 
-        //Call modified register(update) activity to adjust account info
+        //TODO Call modified register(update) activity to adjust account info
         final Button editAccount = View.findViewById(R.id.editAccount);
         editAccount.setOnClickListener(new View.OnClickListener() {
             @Override
