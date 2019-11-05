@@ -225,7 +225,10 @@ def DeleteGoalForUser(request, username, name, isCompleted, notes):
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-        Goal.objects.get(Name=name, IsCompleted=isCompleted, Notes=notes, UserId=user.Id).delete()
+        if isCompleted == 'true':
+            Goal.objects.filter(Name=name, IsCompleted=True, Notes=notes, UserId=user.Id).delete()
+        else:
+            Goal.objects.filter(Name=name, IsCompleted=False, Notes=notes, UserId=user.Id).delete()
         return HttpResponse(status=status.HTTP_200_OK)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
