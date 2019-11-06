@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('Id', 'Name', 'StartDate', 'EndDate', 'NotificationDate', 'IsGoal', 'Frequency', 'UserId')
+        fields = ('Id', 'Name', 'StartDate', 'EndDate', 'NotificationDate', 'Frequency', 'UserId')
 
 class GoalSerializer(serializers.ModelSerializer):
     class Meta:
