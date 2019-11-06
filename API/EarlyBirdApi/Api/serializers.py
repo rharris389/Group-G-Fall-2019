@@ -14,7 +14,7 @@ class EventSerializer(serializers.ModelSerializer):
 class GoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Goal
-        field = ('Id', 'Name', 'IsCompleted', 'Notes', 'UserId')
+        fields = ('Id', 'Name', 'IsCompleted', 'Notes', 'UserId')
 
 class TimeRestrictionSerializer(serializers.ModelSerializer):
     class Meta:
