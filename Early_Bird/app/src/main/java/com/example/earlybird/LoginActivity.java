@@ -90,12 +90,6 @@ public class LoginActivity extends Activity {
 
                                 JSONObject jsonObject = new JSONObject(response);
 
-                                //JSONArray jsonArray = jsonObject.getJSONArray(response);
-                                //for (int i = 0; i < jsonArray.length(); i++) {
-                                  //  JSONObject jo = jsonArray.getJSONObject(i);
-                                    //// Do you fancy stuff
-                                    //String password = jo.getString("Passwd");
-
                                 Integer getUserId = jsonObject.getInt("Id");
                                 String getUsername = jsonObject.getString("Username");
                                 String getEmail = jsonObject.getString("Email");

@@ -89,7 +89,7 @@ public class Fragment1 extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.optJSONObject(i);
 
-                                //TODO decide what information will be shown on the listView
+                                //TODO decide what information will be shown on the listView and what happens when items in the listview are selected
                                 //Integer getEventId = object.getInt("Id");
                                 String getEventName = object.getString("Name");
                                 String getStartDate = object.getString("StartDate");
