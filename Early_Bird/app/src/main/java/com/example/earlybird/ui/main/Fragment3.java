@@ -25,7 +25,7 @@ public class Fragment3 extends Fragment {
         //Get UserInfo from sharedPreferences
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         Integer getUserId = sharedPreferences.getInt("UserId", 0);
-        String getUsername = sharedPreferences.getString("Username", "defaultValue");
+        String getUsername = sharedPreferences.getString("Username", null);
         String getEmail = sharedPreferences.getString("Email", null);
         String getGender = sharedPreferences.getString("Gender", null);
         String getFirstName = sharedPreferences.getString("FirstName", null);
