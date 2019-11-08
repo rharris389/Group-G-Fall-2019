@@ -20,6 +20,38 @@ def AddUser(request):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
+def EditUser(request, username, property, newData):
+    if property == 'Id' or property == 'Username':
+        return HttpResponse(status=status.HTTP_403_FORBIDDEN)
+
+    try:
+        user = User.objects.get(Username=username)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PATCH':
+        if property == 'Email':
+            user.Email = newData
+            user.save()
+        elif property == 'Passwd':
+            user.Passwd = newData
+            user.save()
+        elif property == 'Gender':
+            user.Gender = newData
+            user.save()
+        elif property == 'FirstName':
+            user.FirstName = newData
+            user.save()
+        elif property == 'LastName':
+            user.LastName = newData
+            user.save()
+        else:
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+        return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
 def GetUser(request, username):
     try:
         user = User.objects.get(Username=username)
