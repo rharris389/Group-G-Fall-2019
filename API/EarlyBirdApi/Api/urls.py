@@ -7,6 +7,7 @@ urlpatterns = [
     path('GetUser/<str:username>/', views.GetUser, name='GetUser'),
     path('DeleteUser/<str:username>/', views.DeleteUser, name='DeleteUser'),
     path('AddEvent/', views.AddEvent, name='AddEvent'),
+    path('EditEventForUser/<str:username>/<str:name>/<str:start>/<str:end>/<str:notification>/<str:frequency>/<str:property>/<str:newData>/', views.EditEventForUser, name='EditEventForUser'),
     path('GetAllEvents/', views.GetAllEvents, name='GetAllEvents'),
     path('GetEventsInTimeRange/<str:start>/<str:end>/', views.GetEventsInTimeRange, name='GetEventsInTimeRange'),
     path('GetEventsInTimeRangeForUser/<str:username>/<str:start>/<str:end>/', views.GetEventsInTimeRangeForUser, name='GetEventsInTimeRangeForUser'),

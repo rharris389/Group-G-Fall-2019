@@ -68,6 +68,41 @@ def AddEvent(request):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
+def EditEventForUser(request, username, name, start, end, notification, frequency, property, newData):
+    if property == 'Id' or property == 'UserId':
+        return HttpResponse(status=status.HTTP_403_FORBIDDEN)
+
+    try:
+        user = User.objects.get(Username=username)
+        event = Event.objects.get(Name=name, StartDate=start, EndDate=end, NotificationDate=notification, Frequency=frequency, UserId=user.Id)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    except Event.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PATCH':
+        if property == 'Name':
+            event.Name = newData
+            event.save()
+        elif property == 'StartDate':
+            event.StartDate = newData
+            event.save()
+        elif property == 'EndDate':
+            event.EndDate = newData
+            event.save()
+        elif property == 'NotificationDate':
+            event.NotificationDate = newData
+            event.save()
+        elif property == 'Frequency':
+            event.Frequency = newData
+            event.save()
+        else:
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+        return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
 def GetEventsInTimeRange(request, start, end):
     try:
         events = Event.objects.filter(StartDate__gte=start, StartDate__lt=end).distinct()
