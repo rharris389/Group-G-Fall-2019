@@ -15,6 +15,7 @@ urlpatterns = [
     path('GetAllUsers/', views.GetAllUsers, name='GetAllUsers'),
     path('DeleteEventForUser/<str:username>/<str:name>/<str:start>/<str:end>/', views.DeleteEventForUser, name='DeleteEventForUser'),
     path('AddGoal/', views.AddGoal, name='AddGoal'),
+    path('EditGoalForUser/<str:username>/<str:name>/<str:isCompleted>/<str:notes>/<str:property>/<str:newData>', views.EditGoalForUser, name='EditGoalForUser'),
     path('DeleteGoalForUser/<str:username>/<str:name>/<str:isCompleted>/<str:notes>/', views.DeleteGoalForUser, name='DeleteGoalForUser'),
     path('GetAllCompletedGoalsForUser/<str:username>/', views.GetAllCompletedGoalsForUser, name='GetAllCompletedGoalsForUser'),
     path('GetAllIncompletedGoalsForUser/<str:username>/', views.GetAllIncompletedGoalsForUser, name='GetAllIncompletedGoalsForUser'),

@@ -200,6 +200,46 @@ def AddGoal(request):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
+def EditGoalForUser(request, username, name, isCompleted, notes, property, newData):
+    if property == 'Id' or property == 'UserId':
+        return HttpResponse(status=status.HTTP_403_FORBIDDEN)
+
+    try:
+        user = User.objects.get(Username=username)
+        if isCompleted == 'true':
+            goal = Goal.objects.get(Name=name, IsCompleted=True, Notes=notes, UserId=user.Id)
+        elif isCompleted == 'false':
+            goal = Goal.objects.get(Name=name, IsCompleted=False, Notes=notes, UserId=user.Id)
+        else:
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    except Goal.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PATCH':
+        if property == 'Name':
+            goal.Name = newData
+            goal.save()
+        elif property == 'IsCompleted':
+            if newData == 'true':
+                goal.IsCompleted = True
+                goal.save()
+            elif newData == 'false':
+                goal.IsCompleted = False
+                goal.save()
+            else:
+                return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+        elif property == 'Notes':
+            goal.Notes = newData
+            goal.save()
+        else:
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+        return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
 def DeleteGoalForUser(request, username, name, isCompleted, notes):
     try:
         user = User.objects.get(Username=username)
@@ -212,8 +252,10 @@ def DeleteGoalForUser(request, username, name, isCompleted, notes):
     if request.method == 'DELETE':
         if isCompleted == 'true':
             Goal.objects.filter(Name=name, IsCompleted=True, Notes=notes, UserId=user.Id).delete()
-        else:
+        elif isCompleted == 'false':
             Goal.objects.filter(Name=name, IsCompleted=False, Notes=notes, UserId=user.Id).delete()
+        else:
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
         return HttpResponse(status=status.HTTP_200_OK)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
