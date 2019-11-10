@@ -302,6 +302,35 @@ def AddTimeRestriction(request):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
+def EditTimeRestrictionForUser(request, username, start, end, frequency, property, newData):
+    if property == 'Id' or 'UserId':
+        return HttpResponse(status=status.HTTP_403_FORBIDDEN)
+
+    try:
+        user = User.objects.get(Username=username)
+        timeRestriction = TimeRestriction.objects.get(StartDate=start, EndDate=end, Frequency=frequency, UserId=user.Id)
+    except User.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    except TimeRestriction.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PATCH':
+        if property == 'StartDate':
+            timeRestriction.StartDate = newData
+            timeRestriction.save()
+        elif property == 'EndDate':
+            timeRestriction.EndDate = newData
+            timeRestriction.save()
+        elif property == 'Frequency':
+            timeRestriction.Frequency = frequency
+            timeRestriction.save()
+        else:
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+        return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
 def DeleteTimeRestrictionForUser(request, username, start, end, frequency):
     try:
         user = User.objects.get(Username=username)
