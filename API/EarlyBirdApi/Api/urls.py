@@ -20,6 +20,7 @@ urlpatterns = [
     path('GetAllCompletedGoalsForUser/<str:username>/', views.GetAllCompletedGoalsForUser, name='GetAllCompletedGoalsForUser'),
     path('GetAllIncompletedGoalsForUser/<str:username>/', views.GetAllIncompletedGoalsForUser, name='GetAllIncompletedGoalsForUser'),
     path('AddTimeRestriction/', views.AddTimeRestriction, name='AddTimeRestriction'),
+    path('EditTimeRestrictionForUser/<str:username>/<str:start>/<str:end>/<str:frequency>/<str:property>/<str:newData>/', views.EditTimeRestrictionForUser, name='EditTimeRestrictionForUser'),
     path('GetTimeRestrictionForUser/<str:username>/<str:start>/<str:end>/<str:frequency>/', views.GetTimeRestrictionForUser, name='GetTimeRestrictionForUser'),
     path('GetTimeRestrictionsInTimeRangeForUser/<str:username>/<str:start>/<str:end>/', views.GetTimeRestrictionsInTimeRangeForUser, name='GetTimeRestrictionInTimeRangeForUser'),
     path('GetTimeRestrictionsWithStartAndEndForUser/<str:username>/<str:start>/<str:end>/', views.GetTimeRestrictionsWithStartAndEndForUser, name='GetTimeRestrictionsWithStartAndEndForUser'),
