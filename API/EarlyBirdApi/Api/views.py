@@ -200,20 +200,12 @@ def AddGoal(request):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
-def EditGoalForUser(request, username, name, isCompleted, notes, property, newData):
+def EditGoalById(request, id, property, newData):
     if property == 'Id' or property == 'UserId':
         return HttpResponse(status=status.HTTP_403_FORBIDDEN)
 
     try:
-        user = User.objects.get(Username=username)
-        if isCompleted == 'true':
-            goal = Goal.objects.get(Name=name, IsCompleted=True, Notes=notes, UserId=user.Id)
-        elif isCompleted == 'false':
-            goal = Goal.objects.get(Name=name, IsCompleted=False, Notes=notes, UserId=user.Id)
-        else:
-            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
-    except User.DoesNotExist:
-        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        goal = Goal.objects.get(Id=id)
     except Goal.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
@@ -257,6 +249,19 @@ def DeleteGoalForUser(request, username, name, isCompleted, notes):
         else:
             return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
         return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
+def GetGoalById(request, id):
+    try:
+        goal = Goal.objects.get(Id=id)
+    except Goal.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        goalData = GoalSerializer(goal)
+        return JsonResponse(goalData.data)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
