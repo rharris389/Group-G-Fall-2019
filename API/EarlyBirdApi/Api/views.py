@@ -235,7 +235,12 @@ def EditGoalById(request, id, property, newData):
 def DeleteGoalForUser(request, username, name, isCompleted, notes):
     try:
         user = User.objects.get(Username=username)
-        goal = Goal.objects.get(Name=name, IsCompleted=isCompleted, Notes=notes, UserId=user.Id)
+        if isCompleted == 'true':
+            goal = Goal.objects.get(Name=name, IsCompleted=True, Notes=notes, UserId=user.Id)
+        elif isCompleted == 'false':
+            goal = Goal.objects.get(Name=name, IsCompleted=False, Notes=notes, UserId=user.Id)
+        else:
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     except User.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
     except Goal.DoesNotExist:
