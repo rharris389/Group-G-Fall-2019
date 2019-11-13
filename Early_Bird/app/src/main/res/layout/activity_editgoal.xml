@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+    android:id="@+id/completeGoal"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="200dp"
+    android:layout_marginTop="50dp"
+    android:layout_height="wrap_content"
+    android:text="Goal Completed?"
+    android:textColor="@color/black"
+    android:background="#fff"/>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:padding="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:text="Goal Name: "/>
+        <EditText
+            android:id="@+id/goalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="10dp"
+            android:textSize="15sp"
+
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:padding="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:text="Goal Notes: "/>
+        <EditText
+            android:id="@+id/goalNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="20dp"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/editGoal"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"
+        android:text="Edit Goal"
+        android:textColor="@color/black"
+        android:background="#fff"/>
+    <TextView
+        android:id="@+id/deleteGoal"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Goal"/>
+
+</LinearLayout>
