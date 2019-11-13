@@ -29,6 +29,7 @@ public class GoalSelectedActivity extends Activity {
     private Button  editGoal;
     private TextView deleteGoal;
     private Integer goalId;
+    private String isCompleted;
     String receivedGoalName,receivedGoalNotes;
 
     @Override
@@ -45,10 +46,11 @@ public class GoalSelectedActivity extends Activity {
         deleteGoal = findViewById(R.id.deleteGoal);
 
         goalId = extras.getInt("GoalId");
+        isCompleted = extras.getString("IsCompleted");
         Log.i("GoalSelected", String.valueOf(goalId));
         final String username = extras.getString("Username");
 
-        String url = "http://10.0.2.2:8000/GetGoalById/" + goalId + "/";
+        String url = "http://10.0.2.2:8080/GetGoalById/" + goalId + "/";
         StringRequest GetGoalById = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -102,11 +104,14 @@ public class GoalSelectedActivity extends Activity {
         completeGoal.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                if(isCompleted.equals("true")){
+                    Toast.makeText(GoalSelectedActivity.this, "Already Completed!", Toast.LENGTH_LONG).show();
+                }else {
                     String propertyText = "IsCompleted";
                     String newDataText = "true";
                     String goalIdText = String.valueOf(goalId);
                     try {
-                        URL url = new URL("http://10.0.2.2:8000/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newDataText + "/");
+                        URL url = new URL("http://10.0.2.2:8080/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newDataText + "/");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("PATCH");
 
@@ -142,6 +147,7 @@ public class GoalSelectedActivity extends Activity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                }
             }
         });
 
@@ -150,12 +156,12 @@ public class GoalSelectedActivity extends Activity {
             public void onClick(View v) {
                 String goalNotesText = goalNotes.getText().toString().trim();
                 String goalNameText = goalName.getText().toString().trim();
-                String isCompletedText = "false";
+                String isCompletedText = isCompleted;
                 String usernameText = username;
 
 
                 try {
-                    URL url = new URL("http://10.0.2.2:8000/DeleteGoalForUser/" + usernameText + "/" + goalNameText + "/" + isCompletedText + "/" + goalNotesText + "/");
+                    URL url = new URL("http://10.0.2.2:8080/DeleteGoalForUser/" + usernameText + "/" + goalNameText + "/" + isCompletedText + "/" + goalNotesText + "/");
                     Log.i("URL", String.valueOf(url));
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("DELETE");
@@ -197,14 +203,15 @@ public class GoalSelectedActivity extends Activity {
         editGoal.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                String newNameText = goalName.getText().toString().trim();
+                String newNotesText = goalNotes.getText().toString().trim();
                 if(receivedGoalName.equals(goalName)){
                     //nothing
                 }else {
                     String propertyText = "Name";
-                    String newDataText = goalName.getText().toString().trim();
                     String goalIdText = String.valueOf(goalId);
                     try {
-                        URL url = new URL("http://10.0.2.2:8000/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newDataText + "/");
+                        URL url = new URL("http://10.0.2.2:8080/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newNameText + "/");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("PATCH");
 
@@ -245,10 +252,9 @@ public class GoalSelectedActivity extends Activity {
                 if(receivedGoalNotes.equals(goalNotes)) {
                 }else {
                     String propertyText = "Notes";
-                    String newDataText = goalNotes.getText().toString().trim();
                     String goalIdText = String.valueOf(goalId);
                     try {
-                        URL url = new URL("http://10.0.2.2:8000/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newDataText + "/");
+                        URL url = new URL("http://10.0.2.2:8080/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newNotesText + "/");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("PATCH");
 
