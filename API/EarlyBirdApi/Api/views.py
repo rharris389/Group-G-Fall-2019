@@ -204,7 +204,7 @@ def AddGoal(request):
     if request.method != 'POST':
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-    goalData = JSONParser.parse(request)
+    goalData = JSONParser().parse(request)
     goal = GoalSerializer(data=goalData)
     if goal.is_valid():
         goal.save()
