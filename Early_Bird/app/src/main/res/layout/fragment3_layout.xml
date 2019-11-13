@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="17sp"
             android:text="@string/Username"/>
         <TextView
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="17sp"
             android:text="@string/Email"/>
         <TextView
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:layout_marginStart="20dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
@@ -66,7 +66,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="17sp"
             android:text="@string/Password"/>
         <TextView
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
@@ -91,7 +91,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="17sp"
             android:text="@string/Gender"/>
         <TextView
@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
@@ -116,7 +116,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="17sp"
             android:text="@string/FirstName"/>
         <TextView
@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
@@ -141,7 +141,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="17sp"
             android:text="@string/LastName"/>
         <TextView
@@ -149,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
@@ -162,7 +162,7 @@
         android:layout_marginTop="50dp"
         android:layout_height="wrap_content"
         android:text="@string/EditAccount"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/black"
         android:background="#fff"/>
 
 </LinearLayout>
