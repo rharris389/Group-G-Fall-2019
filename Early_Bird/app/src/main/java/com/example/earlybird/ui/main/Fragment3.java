@@ -1,6 +1,7 @@
 package com.example.earlybird.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.earlybird.AccountEditActivity;
+import com.example.earlybird.AddGoalActivity;
+import com.example.earlybird.GoalSelectedActivity;
 import com.example.earlybird.R;
 
 
@@ -59,7 +64,10 @@ public class Fragment3 extends Fragment {
         editAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //startActivity(new Intent(Fragment3.this.getActivity(), AccountEditActivity.class));
+                //Bundle extras = new Bundle();
+                Intent intent = new Intent(Fragment3.this.getActivity(), AccountEditActivity.class);
+                startActivity(intent);
             }
         });
         return View;

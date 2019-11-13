@@ -31,4 +31,36 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:text="Add Goal" />
+
+    <LinearLayout
+        android:id="@+id/completedGoals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:layout_marginTop="120dp">
+
+
+        <ListView
+            android:id="@+id/completedGoalsListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/black"
+            android:textColor="@color/black"
+            android:dividerHeight="1dp">
+
+
+        </ListView>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/showCompletedGoals"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"
+        android:text="Show Completed Goals"
+        android:textColor="@color/black"
+        android:background="#fff"/>
 </LinearLayout>

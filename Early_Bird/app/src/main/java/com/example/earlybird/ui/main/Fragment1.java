@@ -80,7 +80,7 @@ public class Fragment1 extends Fragment {
                 currentYear = year;
 
                 //Request
-                String url = "http://10.0.2.2:8000/GetEventsInTimeRangeForUser/" + getUsername + "/" + selectedDateAm + "/" + selectedDatePm + "/";
+                String url = "http://10.0.2.2:8080/GetEventsInTimeRangeForUser/" + getUsername + "/" + selectedDateAm + "/" + selectedDatePm + "/";
                 StringRequest GetEventsInTimeRangeForUser = new StringRequest(url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

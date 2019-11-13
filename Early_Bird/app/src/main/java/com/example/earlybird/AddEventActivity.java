@@ -263,7 +263,7 @@ public class AddEventActivity extends Activity {
                 //TODO: add GetPreference to submit username along with add Event Request, check format of python view in django
                 try {
 
-                    URL url = new URL("http://10.0.2.2:8000/AddEvent/");
+                    URL url = new URL("http://10.0.2.2:8080/AddEvent/");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");

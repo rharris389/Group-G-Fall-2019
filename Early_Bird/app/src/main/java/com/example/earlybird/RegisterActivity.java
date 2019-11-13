@@ -31,6 +31,7 @@ public class RegisterActivity extends Activity {
     private EditText userFirstName;
     private EditText userLastName;
     private TextView register;
+    private EditText userConfirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class RegisterActivity extends Activity {
             username = findViewById(R.id.username);
             userEmail = findViewById(R.id.userEmail);
             userPassword = findViewById(R.id.userPassword);
+            userConfirmPassword = findViewById(R.id.userConfirmPassword);
             userGender = findViewById(R.id.userGender);
             userFirstName = findViewById(R.id.userFirstName);
             userLastName = findViewById(R.id.userLastName);
@@ -76,27 +78,31 @@ public class RegisterActivity extends Activity {
                     String usernameText = username.getText().toString().trim();
                     String userEmailText = userEmail.getText().toString().trim();
                     String userPwdText = userPassword.getText().toString().trim();
+                    String userConfirmPwdText = userConfirmPassword.getText().toString().trim();
                     String userGenderText = userGender.getText().toString().trim();
                     String userFirstNameText = userFirstName.getText().toString().trim();
                     String userLastNameText = userLastName.getText().toString().trim();
 
-                    String algorithm = "SHA-512" ;
-                    String data = userPwdText ;
-                    MessageDigest md = null ;
+                    if(userPwdText.equals(userConfirmPwdText)) {
+                    String algorithm = "SHA-512";
+                    String data = userPwdText;
+                    MessageDigest md = null;
 
                     try {
-                        md = MessageDigest.getInstance(algorithm) ;
-                    } catch( NoSuchAlgorithmException nsae) {System.out.println("No Such Algorithm Exception");}
+                        md = MessageDigest.getInstance(algorithm);
+                    } catch (NoSuchAlgorithmException nsae) {
+                        System.out.println("No Such Algorithm Exception");
+                    }
 
-                    md.update(data.getBytes()) ;
+                    md.update(data.getBytes());
 
-                    byte[] passwordHash = md.digest() ; // Perform actual hashing
+                    byte[] passwordHash = md.digest(); // Perform actual hashing
 
-                    System.out.println("Base64 hash is = " + Base64.getEncoder().encodeToString(passwordHash)) ;
+                    System.out.println("Base64 hash is = " + Base64.getEncoder().encodeToString(passwordHash));
                     String passwordHashSave = Base64.getEncoder().encodeToString(passwordHash);
                     try {
 
-                        URL url = new URL("http://10.0.2.2:8000/AddUser/");
+                        URL url = new URL("http://10.0.2.2:8080/AddUser/");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -123,7 +129,7 @@ public class RegisterActivity extends Activity {
                         Log.i("MSG", conn.getResponseMessage());
 
                         int responseCode = conn.getResponseCode();
-                        switch (responseCode){
+                        switch (responseCode) {
                             case 201:
                                 Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                                 break;
@@ -144,8 +150,14 @@ public class RegisterActivity extends Activity {
                         e.printStackTrace();
                     }
 
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                    finish();
+
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        finish();
+
+                    }else{
+                        Toast.makeText(RegisterActivity.this, "Password Does not match, try again", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             });
         }

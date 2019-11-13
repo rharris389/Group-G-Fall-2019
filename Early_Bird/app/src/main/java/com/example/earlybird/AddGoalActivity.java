@@ -54,7 +54,7 @@ public class AddGoalActivity extends Activity {
 
                 try {
 
-                    URL url = new URL("http://10.0.2.2:8000/AddGoal/");
+                    URL url = new URL("http://10.0.2.2:8080/AddGoal/");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
