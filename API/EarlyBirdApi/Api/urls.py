@@ -5,6 +5,7 @@ import Api.views as views
 urlpatterns = [
     path('AddUser/', views.AddUser, name='AddUser'),
     path('EditUser/<str:username>/<str:property>/<str:newData>/', views.EditUser, name='EditUser'),
+    path('EditPasswdForUser/', views.EditPasswdForUser, name='EditPasswdForUser'),
     path('GetUser/<str:username>/', views.GetUser, name='GetUser'),
     path('DeleteUser/<str:username>/', views.DeleteUser, name='DeleteUser'),
     path('AddEvent/', views.AddEvent, name='AddEvent'),
