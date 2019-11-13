@@ -82,7 +82,7 @@ public class LoginActivity extends Activity {
                     System.out.println("Base64 hash is = " + Base64.getEncoder().encodeToString(passwordHash)) ;
                     final String loginPasswordHash = Base64.getEncoder().encodeToString(passwordHash);
 
-                    String url = "http://10.0.2.2:8000/GetUser/" + usernameText + "/";
+                    String url = "http://10.0.2.2:8080/GetUser/" + usernameText + "/";
                     StringRequest GetUser = new StringRequest(url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -104,7 +104,6 @@ public class LoginActivity extends Activity {
                                 editor.putInt("UserId",getUserId);
                                 editor.putString("Username", getUsername);
                                 editor.putString("Email", getEmail);
-                                editor.putString("Password", getPassword);
                                 editor.putString("Gender", getGender);
                                 editor.putString("FirstName", getFirstName);
                                 editor.putString("LastName", getLastName);
