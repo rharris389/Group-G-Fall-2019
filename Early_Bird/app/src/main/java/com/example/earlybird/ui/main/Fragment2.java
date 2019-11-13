@@ -8,10 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,17 +22,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.earlybird.AddEventActivity;
 import com.example.earlybird.AddGoalActivity;
-import com.example.earlybird.LoginActivity;
+import com.example.earlybird.GoalSelectedActivity;
 import com.example.earlybird.R;
-import com.example.earlybird.RegisterActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Fragment2 extends Fragment {
@@ -43,20 +42,22 @@ public class Fragment2 extends Fragment {
 
 
         final ListView listView = View.findViewById(R.id.listView);
-        final ArrayList<String> incompleteGoals = new ArrayList<>();
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, incompleteGoals);
+        final ArrayList<String> incompleteGoalsDisplay = new ArrayList<>();
+        final List incompleteGoals = new ArrayList<>();
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, incompleteGoalsDisplay);
+        listView.setAdapter(null);
         listView.setAdapter(arrayAdapter);
 
         //get username from sharedPreferences
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-        String getUsername = sharedPreferences.getString("Username", null);
+        final String getUsername = sharedPreferences.getString("Username", null);
 
         Log.i("Username: ",getUsername);
-
+        //Integer UserId
 
         //Request
         String url = "http://10.0.2.2:8000/GetAllIncompletedGoalsForUser/" + getUsername + "/";
-        StringRequest GetEventsInTimeRangeForUser = new StringRequest(url, new Response.Listener<String>() {
+        StringRequest GetAllIncompletedGoalsForUser = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -66,18 +67,18 @@ public class Fragment2 extends Fragment {
 
                         //TODO decide what information will be shown on the listView, set what happens when values in listView are clicked
                         String getGoalName = object.getString("Name");
-
+                        Integer getGoalId = object.getInt("Id");
 
                         if (getGoalName != null) {
-                            incompleteGoals.add(getGoalName);
+                            incompleteGoalsDisplay.add(getGoalName);
+                            incompleteGoals.add(getGoalId);
                         }
                     }
                     arrayAdapter.notifyDataSetChanged();
                     Log.i("JSON", String.valueOf(jsonArray));
 
-
-                    if (incompleteGoals == null){
-                        incompleteGoals.add("No Goals Found...  Add some!");
+                    if (incompleteGoalsDisplay == null){
+                        incompleteGoalsDisplay.add("No Goals Found...  Add some!");
                     }
 
                 } catch (JSONException e) {
@@ -93,7 +94,7 @@ public class Fragment2 extends Fragment {
         });
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        requestQueue.add(GetEventsInTimeRangeForUser);
+        requestQueue.add(GetAllIncompletedGoalsForUser);
 
         final Button addGoalButton = View.findViewById(R.id.addGoalButton);
         addGoalButton.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +103,26 @@ public class Fragment2 extends Fragment {
                 //Intent intent = new Intent(Fragment2.this.getActivity(), AddGoalActivity.class);
                 startActivity(new Intent(Fragment2.this.getActivity(), AddGoalActivity.class));
                 //startActivity(intent);
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Bundle extras = new Bundle();
+                Intent intent = new Intent(Fragment2.this.getActivity(), GoalSelectedActivity.class);
+            //incompleteGoals item = (incompleteGoals) incompleteGoals.getItemAtPosition(position).toString();
+                Integer goalSelected = (Integer) incompleteGoals.get(position);
+                extras.putInt("GoalId", goalSelected);
+                extras.putString("Username",getUsername);
+                //List<Object> selectedGoal = new ArrayList<>();
+                //selectedGoal.add(text1);
+                //String selected = selectedGoal.getString();
+                //Integer selectedId = text1.getInt("Id");
+                //String getStartDate = object.getString("StartDate");
+//getActivity().g(position).toString();
+                Log.i("Item: ", String.valueOf(goalSelected));
+                intent.putExtras(extras);
+                startActivity(intent);
             }
         });
         return View;
