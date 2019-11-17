@@ -10,7 +10,7 @@ class User(models.Model):
     LastName = models.CharField(max_length=50)
 
     def __str__(self):
-        return f'{self.FirstName} {self.LastName}'
+        return f"{self.FirstName} {self.LastName}"
 
 class Event(models.Model):
     Id = models.AutoField(primary_key=True)
@@ -22,7 +22,7 @@ class Event(models.Model):
     UserId = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.Name}'
+        return f"{self.Name}"
 
 class Goal(models.Model):
     Id = models.AutoField(primary_key=True)
@@ -32,7 +32,7 @@ class Goal(models.Model):
     UserId = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.Name}'
+        return f"{self.Name}"
 
 class TimeRestriction(models.Model):
     Id = models.AutoField(primary_key=True)
@@ -42,4 +42,4 @@ class TimeRestriction(models.Model):
     UserId = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Start: {self.StartDate} End: {self.EndDate}'
+        return f"Start: {self.StartDate} End: {self.EndDate}"
