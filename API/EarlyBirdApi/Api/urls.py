@@ -2,6 +2,7 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 import Api.views as views
 
+
 urlpatterns = [
     path("AddUser/", views.AddUser),
     path("EditUser/<str:username>/<str:property>/<str:newData>/", views.EditUser),
