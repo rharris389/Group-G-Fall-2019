@@ -8,7 +8,7 @@ from .serializers import UserSerializer, EventSerializer, GoalSerializer, TimeRe
 
 @csrf_exempt
 def AddUser(request):
-    if request.method != 'POST':
+    if request.method != "POST":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     userData = JSONParser().parse(request)
@@ -21,9 +21,9 @@ def AddUser(request):
 
 @csrf_exempt
 def EditUser(request, username, property, newData):
-    if request.method != 'PATCH':
+    if request.method != "PATCH":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
-    if property == 'Id' or property == 'Username' or property == 'Passwd':
+    if property == "Id" or property == "Username" or property == "Passwd":
         return HttpResponse(status=status.HTTP_403_FORBIDDEN)
 
     try:
@@ -31,16 +31,16 @@ def EditUser(request, username, property, newData):
     except User.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
-    if property == 'Email':
+    if property == "Email":
         user.Email = newData
         user.save()
-    elif property == 'Gender':
+    elif property == "Gender":
         user.Gender = newData
         user.save()
-    elif property == 'FirstName':
+    elif property == "FirstName":
         user.FirstName = newData
         user.save()
-    elif property == 'LastName':
+    elif property == "LastName":
         user.LastName = newData
         user.save()
     else:
@@ -49,23 +49,23 @@ def EditUser(request, username, property, newData):
 
 @csrf_exempt
 def EditPasswdForUser(request):
-    if request.method != 'PATCH':
+    if request.method != "PATCH":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     newUserData = JSONParser().parse(request)
 
     try:
-        user = User.objects.get(Username=newUserData['Username'])
+        user = User.objects.get(Username=newUserData["Username"])
     except User.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
-    user.Passwd = newUserData['Passwd']
+    user.Passwd = newUserData["Passwd"]
     user.save()
     return HttpResponse(status=status.HTTP_200_OK)
 
 @csrf_exempt
 def GetUser(request, username):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -78,7 +78,7 @@ def GetUser(request, username):
 
 @csrf_exempt
 def DeleteUser(request, username):
-    if request.method != 'DELETE':
+    if request.method != "DELETE":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -91,7 +91,7 @@ def DeleteUser(request, username):
 
 @csrf_exempt
 def GetAllUsers(request):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     users = User.objects.all()
@@ -100,7 +100,7 @@ def GetAllUsers(request):
 
 @csrf_exempt
 def AddEvent(request):
-    if request.method != 'POST':
+    if request.method != "POST":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     eventData = JSONParser().parse(request)
@@ -113,32 +113,39 @@ def AddEvent(request):
 
 @csrf_exempt
 def EditEventForUser(request, username, name, start, end, notification, frequency, property, newData):
-    if request.method != 'PATCH':
+    if request.method != "PATCH":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
-    if property == 'Id' or property == 'UserId':
+    if property == "Id" or property == "UserId":
         return HttpResponse(status=status.HTTP_403_FORBIDDEN)
 
     try:
         user = User.objects.get(Username=username)
-        event = Event.objects.get(Name=name, StartDate=start, EndDate=end, NotificationDate=notification, Frequency=frequency, UserId=user.Id)
+        event = Event.objects.get(
+            Name=name,
+            StartDate=start,
+            EndDate=end,
+            NotificationDate=notification,
+            Frequency=frequency,
+            UserId=user.Id
+        )
     except User.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
     except Event.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
-    if property == 'Name':
+    if property == "Name":
         event.Name = newData
         event.save()
-    elif property == 'StartDate':
+    elif property == "StartDate":
         event.StartDate = newData
         event.save()
-    elif property == 'EndDate':
+    elif property == "EndDate":
         event.EndDate = newData
         event.save()
-    elif property == 'NotificationDate':
+    elif property == "NotificationDate":
         event.NotificationDate = newData
         event.save()
-    elif property == 'Frequency':
+    elif property == "Frequency":
         event.Frequency = newData
         event.save()
     else:
@@ -147,7 +154,7 @@ def EditEventForUser(request, username, name, start, end, notification, frequenc
 
 @csrf_exempt
 def GetEventsInTimeRange(request, start, end):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -160,7 +167,7 @@ def GetEventsInTimeRange(request, start, end):
 
 @csrf_exempt
 def GetEventsInTimeRangeForUser(request, username, start, end):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -176,7 +183,7 @@ def GetEventsInTimeRangeForUser(request, username, start, end):
 
 @csrf_exempt
 def GetAllEvents(request):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     events = Event.objects.all()
@@ -185,7 +192,7 @@ def GetAllEvents(request):
 
 @csrf_exempt
 def DeleteEventForUser(request, username, name, start, end):
-    if request.method != 'DELETE':
+    if request.method != "DELETE":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -201,7 +208,7 @@ def DeleteEventForUser(request, username, name, start, end):
 
 @csrf_exempt
 def AddGoal(request):
-    if request.method != 'POST':
+    if request.method != "POST":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     goalData = JSONParser().parse(request)
@@ -214,9 +221,9 @@ def AddGoal(request):
 
 @csrf_exempt
 def EditGoalById(request, id, property, newData):
-    if request.method != 'PATCH':
+    if request.method != "PATCH":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
-    if property == 'Id' or property == 'UserId':
+    if property == "Id" or property == "UserId":
         return HttpResponse(status=status.HTTP_403_FORBIDDEN)
 
     try:
@@ -224,19 +231,19 @@ def EditGoalById(request, id, property, newData):
     except Goal.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
-    if property == 'Name':
+    if property == "Name":
         goal.Name = newData
         goal.save()
-    elif property == 'IsCompleted':
-        if newData == 'true':
+    elif property == "IsCompleted":
+        if newData == "true":
             goal.IsCompleted = True
             goal.save()
-        elif newData == 'false':
+        elif newData == "false":
             goal.IsCompleted = False
             goal.save()
         else:
             return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
-    elif property == 'Notes':
+    elif property == "Notes":
         goal.Notes = newData
         goal.save()
     else:
@@ -245,14 +252,14 @@ def EditGoalById(request, id, property, newData):
 
 @csrf_exempt
 def DeleteGoalForUser(request, username, name, isCompleted, notes):
-    if request.method != 'DELETE':
+    if request.method != "DELETE":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
         user = User.objects.get(Username=username)
-        if isCompleted == 'true':
+        if isCompleted == "true":
             goal = Goal.objects.get(Name=name, IsCompleted=True, Notes=notes, UserId=user.Id)
-        elif isCompleted == 'false':
+        elif isCompleted == "false":
             goal = Goal.objects.get(Name=name, IsCompleted=False, Notes=notes, UserId=user.Id)
         else:
             return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
@@ -261,7 +268,7 @@ def DeleteGoalForUser(request, username, name, isCompleted, notes):
     except Goal.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
-    if isCompleted == 'true':
+    if isCompleted == "true":
         Goal.objects.filter(Name=name, IsCompleted=True, Notes=notes, UserId=user.Id).delete()
     else:
         Goal.objects.filter(Name=name, IsCompleted=False, Notes=notes, UserId=user.Id).delete()
@@ -269,7 +276,7 @@ def DeleteGoalForUser(request, username, name, isCompleted, notes):
 
 @csrf_exempt
 def GetGoalById(request, id):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -282,7 +289,7 @@ def GetGoalById(request, id):
 
 @csrf_exempt
 def GetAllCompletedGoalsForUser(request, username):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -296,7 +303,7 @@ def GetAllCompletedGoalsForUser(request, username):
 
 @csrf_exempt
 def GetAllIncompletedGoalsForUser(request, username):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -310,7 +317,7 @@ def GetAllIncompletedGoalsForUser(request, username):
 
 @csrf_exempt
 def AddTimeRestriction(request):
-    if request.method != 'POST':
+    if request.method != "POST":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     timeRestrictionData = JSONParser().parse(request)
@@ -323,26 +330,31 @@ def AddTimeRestriction(request):
 
 @csrf_exempt
 def EditTimeRestrictionForUser(request, username, start, end, frequency, property, newData):
-    if request.method != 'PATCH':
+    if request.method != "PATCH":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
-    if property == 'Id' or 'UserId':
+    if property == "Id" or "UserId":
         return HttpResponse(status=status.HTTP_403_FORBIDDEN)
 
     try:
         user = User.objects.get(Username=username)
-        timeRestriction = TimeRestriction.objects.get(StartDate=start, EndDate=end, Frequency=frequency, UserId=user.Id)
+        timeRestriction = TimeRestriction.objects.get(
+            StartDate=start,
+            EndDate=end,
+            Frequency=frequency,
+            UserId=user.Id
+        )
     except User.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
     except TimeRestriction.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
-    if property == 'StartDate':
+    if property == "StartDate":
         timeRestriction.StartDate = newData
         timeRestriction.save()
-    elif property == 'EndDate':
+    elif property == "EndDate":
         timeRestriction.EndDate = newData
         timeRestriction.save()
-    elif property == 'Frequency':
+    elif property == "Frequency":
         timeRestriction.Frequency = newData
         timeRestriction.save()
     else:
@@ -351,7 +363,7 @@ def EditTimeRestrictionForUser(request, username, start, end, frequency, propert
 
 @csrf_exempt
 def DeleteTimeRestrictionForUser(request, username, start, end, frequency):
-    if request.method != 'DELETE':
+    if request.method != "DELETE":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -367,7 +379,7 @@ def DeleteTimeRestrictionForUser(request, username, start, end, frequency):
 
 @csrf_exempt
 def GetTimeRestrictionForUser(request, username, start, end, frequency):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -383,7 +395,7 @@ def GetTimeRestrictionForUser(request, username, start, end, frequency):
 
 @csrf_exempt
 def GetTimeRestrictionsInTimeRangeForUser(request, username, start, end):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -397,7 +409,7 @@ def GetTimeRestrictionsInTimeRangeForUser(request, username, start, end):
 
 @csrf_exempt
 def GetTimeRestrictionsWithStartAndEndForUser(request, username, start, end):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -411,7 +423,7 @@ def GetTimeRestrictionsWithStartAndEndForUser(request, username, start, end):
 
 @csrf_exempt
 def GetTimeRestrictionsWithFrequencyForUser(request, username, frequency):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -425,7 +437,7 @@ def GetTimeRestrictionsWithFrequencyForUser(request, username, frequency):
 
 @csrf_exempt
 def GetAllTimeRestrictionsForUser(request, username):
-    if request.method != 'GET':
+    if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     try:
