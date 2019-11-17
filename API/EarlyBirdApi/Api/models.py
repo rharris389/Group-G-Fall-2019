@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class User(models.Model):
     Id = models.AutoField(primary_key=True)
     Username = models.CharField(max_length=50, unique=True)
@@ -11,6 +12,7 @@ class User(models.Model):
 
     def __str__(self):
         return f"{self.FirstName} {self.LastName}"
+
 
 class Event(models.Model):
     Id = models.AutoField(primary_key=True)
@@ -24,6 +26,7 @@ class Event(models.Model):
     def __str__(self):
         return f"{self.Name}"
 
+
 class Goal(models.Model):
     Id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=50)
@@ -33,6 +36,7 @@ class Goal(models.Model):
 
     def __str__(self):
         return f"{self.Name}"
+
 
 class TimeRestriction(models.Model):
     Id = models.AutoField(primary_key=True)

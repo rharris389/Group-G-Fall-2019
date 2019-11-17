@@ -6,6 +6,7 @@ from rest_framework import status
 from .models import User, Event, Goal, TimeRestriction
 from .serializers import UserSerializer, EventSerializer, GoalSerializer, TimeRestrictionSerializer
 
+
 @csrf_exempt
 def AddUser(request):
     if request.method != "POST":
@@ -18,6 +19,7 @@ def AddUser(request):
         return HttpResponse(status=status.HTTP_201_CREATED)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
 
 @csrf_exempt
 def EditUser(request, username, property, newData):
@@ -47,6 +49,7 @@ def EditUser(request, username, property, newData):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     return HttpResponse(status=status.HTTP_200_OK)
 
+
 @csrf_exempt
 def EditPasswdForUser(request):
     if request.method != "PATCH":
@@ -63,6 +66,7 @@ def EditPasswdForUser(request):
     user.save()
     return HttpResponse(status=status.HTTP_200_OK)
 
+
 @csrf_exempt
 def GetUser(request, username):
     if request.method != "GET":
@@ -75,6 +79,7 @@ def GetUser(request, username):
 
     userData = UserSerializer(user)
     return JsonResponse(userData.data)
+
 
 @csrf_exempt
 def DeleteUser(request, username):
@@ -89,6 +94,7 @@ def DeleteUser(request, username):
     User.objects.filter(Username=username).delete()
     return HttpResponse(status=status.HTTP_200_OK)
 
+
 @csrf_exempt
 def GetAllUsers(request):
     if request.method != "GET":
@@ -97,6 +103,7 @@ def GetAllUsers(request):
     users = User.objects.all()
     usersData = UserSerializer(users, many=True)
     return JsonResponse(usersData.data, safe=False)
+
 
 @csrf_exempt
 def AddEvent(request):
@@ -110,6 +117,7 @@ def AddEvent(request):
         return HttpResponse(status=status.HTTP_201_CREATED)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
 
 @csrf_exempt
 def EditEventForUser(request, username, name, start, end, notification, frequency, property, newData):
@@ -152,6 +160,7 @@ def EditEventForUser(request, username, name, start, end, notification, frequenc
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     return HttpResponse(status=status.HTTP_200_OK)
 
+
 @csrf_exempt
 def GetEventsInTimeRange(request, start, end):
     if request.method != "GET":
@@ -164,6 +173,7 @@ def GetEventsInTimeRange(request, start, end):
 
     eventsData = EventSerializer(events, many=True)
     return JsonResponse(eventsData.data, safe=False)
+
 
 @csrf_exempt
 def GetEventsInTimeRangeForUser(request, username, start, end):
@@ -181,6 +191,7 @@ def GetEventsInTimeRangeForUser(request, username, start, end):
     eventsData = EventSerializer(events, many=True)
     return JsonResponse(eventsData.data, safe=False)
 
+
 @csrf_exempt
 def GetAllEvents(request):
     if request.method != "GET":
@@ -189,6 +200,7 @@ def GetAllEvents(request):
     events = Event.objects.all()
     eventsData = EventSerializer(events, many=True)
     return JsonResponse(eventsData.data, safe=False)
+
 
 @csrf_exempt
 def DeleteEventForUser(request, username, name, start, end):
@@ -206,6 +218,7 @@ def DeleteEventForUser(request, username, name, start, end):
     Event.objects.filter(Name=name, StartDate=start, EndDate=end, UserId=user.Id).delete()
     return HttpResponse(status=status.HTTP_200_OK)
 
+
 @csrf_exempt
 def AddGoal(request):
     if request.method != "POST":
@@ -218,6 +231,7 @@ def AddGoal(request):
         return HttpResponse(status=status.HTTP_201_CREATED)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
 
 @csrf_exempt
 def EditGoalById(request, id, property, newData):
@@ -250,6 +264,7 @@ def EditGoalById(request, id, property, newData):
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     return HttpResponse(status=status.HTTP_200_OK)
 
+
 @csrf_exempt
 def DeleteGoalForUser(request, username, name, isCompleted, notes):
     if request.method != "DELETE":
@@ -274,6 +289,7 @@ def DeleteGoalForUser(request, username, name, isCompleted, notes):
         Goal.objects.filter(Name=name, IsCompleted=False, Notes=notes, UserId=user.Id).delete()
     return HttpResponse(status=status.HTTP_200_OK)
 
+
 @csrf_exempt
 def GetGoalById(request, id):
     if request.method != "GET":
@@ -286,6 +302,7 @@ def GetGoalById(request, id):
 
     goalData = GoalSerializer(goal)
     return JsonResponse(goalData.data)
+
 
 @csrf_exempt
 def GetAllCompletedGoalsForUser(request, username):
@@ -301,6 +318,7 @@ def GetAllCompletedGoalsForUser(request, username):
     goalsData = GoalSerializer(goals, many=True)
     return JsonResponse(goalsData.data, safe=False)
 
+
 @csrf_exempt
 def GetAllIncompletedGoalsForUser(request, username):
     if request.method != "GET":
@@ -315,6 +333,7 @@ def GetAllIncompletedGoalsForUser(request, username):
     goalsData = GoalSerializer(goals, many=True)
     return JsonResponse(goalsData.data, safe=False)
 
+
 @csrf_exempt
 def AddTimeRestriction(request):
     if request.method != "POST":
@@ -327,6 +346,7 @@ def AddTimeRestriction(request):
         return HttpResponse(status=status.HTTP_201_CREATED)
     else:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
 
 @csrf_exempt
 def EditTimeRestrictionForUser(request, username, start, end, frequency, property, newData):
@@ -361,6 +381,7 @@ def EditTimeRestrictionForUser(request, username, start, end, frequency, propert
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     return HttpResponse(status=status.HTTP_200_OK)
 
+
 @csrf_exempt
 def DeleteTimeRestrictionForUser(request, username, start, end, frequency):
     if request.method != "DELETE":
@@ -376,6 +397,7 @@ def DeleteTimeRestrictionForUser(request, username, start, end, frequency):
 
     TimeRestriction.objects.filter(StartDate=start, EndDate=end, Frequency=frequency, UserId=user.Id).distinct()
     return HttpResponse(status=status.HTTP_200_OK)
+
 
 @csrf_exempt
 def GetTimeRestrictionForUser(request, username, start, end, frequency):
@@ -393,6 +415,7 @@ def GetTimeRestrictionForUser(request, username, start, end, frequency):
     timeRestrictionData = TimeRestrictionSerializer(timeRestriction)
     return JsonResponse(timeRestrictionData.data)
 
+
 @csrf_exempt
 def GetTimeRestrictionsInTimeRangeForUser(request, username, start, end):
     if request.method != "GET":
@@ -406,6 +429,7 @@ def GetTimeRestrictionsInTimeRangeForUser(request, username, start, end):
     timeRestrictions = TimeRestriction.objects.filter(StartDate__lte=start, EndDate__gt=end, UserId=user.Id).distinct()
     timeRestrictionsData = TimeRestrictionSerializer(timeRestrictions, many=True)
     return JsonResponse(timeRestrictionsData.data, safe=False)
+
 
 @csrf_exempt
 def GetTimeRestrictionsWithStartAndEndForUser(request, username, start, end):
@@ -421,6 +445,7 @@ def GetTimeRestrictionsWithStartAndEndForUser(request, username, start, end):
     timeRestrictionsData = TimeRestrictionSerializer(timeRestrictions, many=True)
     return JsonResponse(timeRestrictionsData.data, safe=False)
 
+
 @csrf_exempt
 def GetTimeRestrictionsWithFrequencyForUser(request, username, frequency):
     if request.method != "GET":
@@ -434,6 +459,7 @@ def GetTimeRestrictionsWithFrequencyForUser(request, username, frequency):
     timeRestrictions = TimeRestriction.objects.filter(Frequency=frequency, UserId=user.Id).distinct()
     timeRestrictionsData = TimeRestrictionSerializer(timeRestrictions, many=True)
     return JsonResponse(timeRestrictionsData.data, safe=False)
+
 
 @csrf_exempt
 def GetAllTimeRestrictionsForUser(request, username):
