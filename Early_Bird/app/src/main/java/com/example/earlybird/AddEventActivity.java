@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -30,20 +33,32 @@ public class AddEventActivity extends Activity {
 
     private EditText eventEndDate;
     private EditText eventEndTime;
-    private EditText eventStartDate;
+    private TextView eventStartDate;
     private EditText eventStartTime;
     private EditText eventName;
-    private EditText eventFrequency;
+    private Spinner eventFrequency;
     private EditText eventNotificationDate;
     private EditText eventNotificationTime;
-    private TextView addEvent;
+    private Button addEvent;
     private CheckBox eventIsGoal;
 
     Calendar calendar;
     int currentHour, currentMinute, currentMonth, currentDay, currentYear;
-    String eventStartDateSave,getEventStartDateTimeSave, eventEndDateSave, eventEndDateTimeSave, eventNotificationDateSave,
-            eventNotificationDateTimeSave, startDateText, endTimeText, eventNameText, eventFrequencyText, eventIdText, amPm,
-            eventStartDateTime, eventEndDateTime, eventNotificationDateTime;
+    String eventStartDateSave;
+    String getEventStartDateTimeSave;
+    String eventEndDateSave;
+    String eventEndDateTimeSave;
+    String eventNotificationDateSave;
+    String eventNotificationDateTimeSave;
+    String startDateText;
+    String endTimeText;
+    String eventNameText;
+    String eventFrequencyText;
+    String eventIdText;
+    String amPm;
+    String eventStartDateTime;
+    String eventEndDateTime;
+    String eventNotificationDateTime;
     Boolean isGoal;
 
 
@@ -62,16 +77,23 @@ public class AddEventActivity extends Activity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+        final String getUsername = sharedPreferences.getString("Username", null);
+
         Integer startDay = extras.getInt("STARTDAY");
         Integer startMonth = extras.getInt("STARTMONTH");
         Integer startYear = extras.getInt("STARTYEAR");
 
+        //Set initial Values
         eventName = findViewById(R.id.eventName);
-        eventFrequency = findViewById(R.id.eventFrequency);
         addEvent = findViewById(R.id.addEvent);
         eventStartDate = findViewById(R.id.eventStartDate);
+
+        eventEndDate = findViewById(R.id.eventEndDate);
         eventStartDate.setText(startYear + "/" + startMonth + "/" + startDay);
+        eventEndDate.setText(startYear + "/" + startMonth + "/" + startDay);
         eventStartDateSave = (startYear + "-" + startMonth + "-" + startDay);
+        eventEndDateSave = (startYear + "-" + startMonth + "-" + startDay);
         eventStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +114,8 @@ public class AddEventActivity extends Activity {
         });
 
         eventStartTime = findViewById(R.id.eventStartTime);
+        eventStartTime.setText("12:00AM");
+        getEventStartDateTimeSave = ("12:00");
         eventStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,6 +140,16 @@ public class AddEventActivity extends Activity {
             }
         });
 
+
+        eventFrequency = findViewById(R.id.eventFrequency);
+        eventEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            eventFrequency.setOnItemSelectedListener(new FrequencyListener());
+
+            }
+            });
+
         eventEndDate = findViewById(R.id.eventEndDate);
         eventEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +172,8 @@ public class AddEventActivity extends Activity {
         });
 
         eventEndTime = findViewById(R.id.eventEndTime);
+        eventEndTime.setText("02:00PM");
+        eventEndDateTimeSave = ("14:00");
         eventEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,6 +199,8 @@ public class AddEventActivity extends Activity {
         });
 
         eventNotificationDate = findViewById(R.id.eventNotificationDate);
+        eventNotificationDate.setText(startYear + "-" + startMonth + "-" + startDay);
+        eventNotificationDateSave = (startYear + "-" + startMonth + "-" + startDay);
         eventNotificationDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,6 +222,8 @@ public class AddEventActivity extends Activity {
         });
 
         eventNotificationTime = findViewById(R.id.eventNotificationTime);
+        eventNotificationTime.setText("01:00PM");
+        eventNotificationDateTimeSave = ("13:00");
         eventNotificationTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,6 +254,7 @@ public class AddEventActivity extends Activity {
             public void onClick(View view) {
                 if (eventIsGoal.isChecked()) {
                     isGoal = true;
+
                 } else {
                     isGoal = false;
                 }
@@ -253,7 +294,7 @@ public class AddEventActivity extends Activity {
                 }
 
                 eventNameText = eventName.getText().toString().trim();
-                eventFrequencyText = eventFrequency.getText().toString().trim();
+                eventFrequencyText = eventFrequency.getSelectedItem().toString();
                 eventIdText = startDateText + endTimeText;
 
                 eventStartDateTime = eventStartDateSave + "T" + getEventStartDateTimeSave + ":00";
@@ -282,6 +323,7 @@ public class AddEventActivity extends Activity {
                     jsonObject.put("NotificationDate", eventNotificationDateTime);
                     jsonObject.put("IsGoal", isGoal);
                     jsonObject.put("Frequency", eventFrequencyText);
+                    jsonObject.put("UserId", getUserId);
 
                     Log.i("JSON", jsonObject.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
@@ -297,19 +339,64 @@ public class AddEventActivity extends Activity {
                     switch (responseCode){
                         case 201:
                             Toast.makeText(AddEventActivity.this, "Event Added", Toast.LENGTH_SHORT).show();
+                            try {
+
+                                URL url1 = new URL("http://10.0.2.2:8080/AddGoal/");
+                                HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
+                                conn1.setRequestMethod("POST");
+                                conn1.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                                conn1.setRequestProperty("Accept", "application/json");
+                                conn1.setDoOutput(true);
+                                conn1.setDoInput(true);
+                                JSONObject jsonObject1 = new JSONObject();
+
+                                String goalEndDate= "";
+
+                                if (eventEndDateTime.length() > 4)
+                                {
+                                   goalEndDate  = eventEndDateTime.substring(0,10);
+                                }
+
+                                Boolean isCompleted = false;
+                                String goalNotesText = ("Due by " + goalEndDate);
+
+                                jsonObject1.put("Name", eventNameText);
+                                jsonObject1.put("IsCompleted", isCompleted);
+                                jsonObject1.put("Notes", goalNotesText);
+                                jsonObject1.put("UserId", getUserId);
+
+
+
+                                DataOutputStream os1 = new DataOutputStream(conn1.getOutputStream());
+
+                                os1.writeBytes(jsonObject1.toString());
+                                os1.flush();
+                                os1.close();
+                                Log.i("JSON", jsonObject1.toString());
+                                Log.i("STATUS", String.valueOf(conn1.getResponseCode()));
+                                Log.i("MSG", conn.getResponseMessage());
+
+                                int responseCode1 = conn1.getResponseCode();
+                                switch (responseCode1) {
+                                    case 201:
+                                        Toast.makeText(AddEventActivity.this, "Goal Added", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(AddEventActivity.this, MainActivity.class));
+                                        break;
+                                    case 400:
+                                        Toast.makeText(AddEventActivity.this, "Goal Could not be added, please try again", Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
+                            } catch (JSONException | IOException e) {
+                                e.printStackTrace();
+                            }
+
                             startActivity(new Intent(AddEventActivity.this, MainActivity.class));
                             break;
                         case 400:
                             Toast.makeText(AddEventActivity.this, "Event Could not be added, please try again", Toast.LENGTH_SHORT).show();
                             break;
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
                 finish();

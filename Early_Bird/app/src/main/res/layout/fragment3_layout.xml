@@ -23,12 +23,17 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:textColor="@color/black"
+            android:background="@drawable/border_style"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
-            android:hint="@string/UsernameHint"/>
+            android:hint="@string/UsernameHint"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
     </LinearLayout>
     <LinearLayout
         android:gravity="center_horizontal"
@@ -48,12 +53,17 @@
             android:id="@+id/userEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:textColor="@color/black"
+            android:background="@drawable/border_style"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/white"
             android:layout_marginStart="20dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
-            android:hint="@string/EmailHint"/>
+            android:hint="@string/EmailHint"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
     </LinearLayout>
     <LinearLayout
         android:gravity="center_horizontal"
@@ -73,12 +83,17 @@
             android:id="@+id/userPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:textColor="@color/black"
+            android:background="@drawable/border_style"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
-            android:hint="@string/PasswordHint"/>
+            android:hint="@string/PasswordHint"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
     </LinearLayout>
     <LinearLayout
         android:gravity="center_horizontal"
@@ -98,12 +113,17 @@
             android:id="@+id/userGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:textColor="@color/black"
+            android:background="@drawable/border_style"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
-            android:hint="@string/GenderHint"/>
+            android:hint="@string/GenderHint"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
     </LinearLayout>
     <LinearLayout
         android:gravity="center_horizontal"
@@ -123,12 +143,17 @@
             android:id="@+id/userFirstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:textColor="@color/black"
+            android:background="@drawable/border_style"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
-            android:hint="@string/FirstNameHint"/>
+            android:hint="@string/FirstNameHint"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
     </LinearLayout>
     <LinearLayout
         android:gravity="center_horizontal"
@@ -148,12 +173,17 @@
             android:id="@+id/userLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:textColor="@color/black"
+            android:background="@drawable/border_style"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textColorHint="#e9e9e9"
-            android:hint="@string/LastNameHint"/>
+            android:hint="@string/LastNameHint"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"/>
     </LinearLayout>
     <Button
         android:id="@+id/editAccount"
@@ -162,7 +192,7 @@
         android:layout_marginTop="50dp"
         android:layout_height="wrap_content"
         android:text="@string/EditAccount"
-        android:textColor="@color/black"
-        android:background="#fff"/>
+        android:textColor="@color/white"
+        android:background="@color/colorPrimaryDark"/>
 
 </LinearLayout>

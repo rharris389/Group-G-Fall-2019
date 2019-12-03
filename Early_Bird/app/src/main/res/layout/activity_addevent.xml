@@ -6,18 +6,12 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/icon"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:textSize="25sp"
-                android:layout_gravity="center"
-                android:text="Event Information: "/>
+
             <LinearLayout
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
@@ -30,34 +24,74 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#fff"
-                    android:textSize="17sp"
-                    android:text="Start Date: "/>
-                <EditText
+                    android:textSize="20sp"
+                    android:text="New Event Start Date: "/>
+                <TextView
                     android:id="@+id/eventStartDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:textColor="#fff"
-                    android:textSize="15sp"
-                    android:textColorHint="#e9e9e9"
-                    android:focusableInTouchMode="false"
-                    android:hint="Select    "/>
+                    android:textSize="20dp"
+                />
+             </LinearLayout>
+            <LinearLayout
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp"
+                android:padding="10dp"
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#fff"
                     android:textSize="17sp"
-                    android:text="   Start Time: "/>
+                    android:text="Start Time: "/>
                 <EditText
                     android:id="@+id/eventStartTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@null"
+                    android:background="@drawable/border_style"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:textColor="#fff"
                     android:textSize="15sp"
                     android:textColorHint="#e9e9e9"
                     android:focusableInTouchMode="false"
-                    android:hint="Select  "/>
+                    android:hint="Select  "
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:textSize="17sp"
+                    android:paddingStart="20dp"
+                    android:text="Frequency: "/>
+                <RelativeLayout
+                    android:layout_width="103dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_style"
+                    android:backgroundTint="@color/colorPrimaryDark">
+                <Spinner
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/eventFrequency"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/frequency_arrays"
+                    android:dropDownWidth="fill_parent"
+                    android:textSize="15sp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingEnd="0dp"
+                    android:popupBackground="@color/colorPrimaryDark"
+                    />
+            </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -66,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:padding="20dp"
+                android:padding="10dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -78,12 +112,16 @@
                     android:id="@+id/eventEndDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@null"
+                    android:background="@drawable/border_style"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:textColor="#fff"
                     android:textSize="15sp"
                     android:textColorHint="#e9e9e9"
-                    android:focusableInTouchMode="false"
-                    android:hint="Select    "/>
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -94,38 +132,20 @@
                     android:id="@+id/eventEndTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@null"
+                    android:background="@drawable/border_style"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:textColor="#fff"
                     android:textSize="15sp"
                     android:textColorHint="#e9e9e9"
                     android:focusableInTouchMode="false"
-                    android:hint="Select  "/>
+                    android:hint="Select  "
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:padding="20dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#fff"
-                    android:textSize="19sp"
-                    android:text="Event Frequency: "/>
-                <EditText
-                    android:id="@+id/eventFrequency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:textColorHint="#e9e9e9"
-                    android:hint="Select frequency"/>
-            </LinearLayout>
+
             <LinearLayout
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
@@ -155,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:padding="20dp"
+                android:padding="10dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -163,15 +183,32 @@
                     android:textColor="#fff"
                     android:textSize="19sp"
                     android:text="Event Description: "/>
+            </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:padding="5dp"
+                    android:orientation="horizontal">
                 <EditText
                     android:id="@+id/eventName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
+                    android:layout_height="60dp"
+                    android:background="@drawable/border_style"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:textColor="#fff"
                     android:textSize="16sp"
+                   android:textAlignment="gravity"
+                    android:gravity="top"
                     android:textColorHint="#e9e9e9"
-                    android:hint="Please Describe Event"/>
+                    android:hint="Please Describe Event"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"/>
             </LinearLayout>
             <LinearLayout
                 android:gravity="center_horizontal"
@@ -179,7 +216,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:padding="20dp"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -191,13 +229,17 @@
                     android:id="@+id/eventNotificationDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-
+                    android:background="@drawable/border_style"
+                    android:backgroundTint="@color/colorPrimaryDark"
                     android:textColor="#fff"
                     android:textSize="16sp"
                     android:textColorHint="#e9e9e9"
                     android:focusableInTouchMode="false"
-                    android:hint="Select Date"/>
+                    android:hint="Select Date"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"/>
             </LinearLayout>
             <LinearLayout
                 android:gravity="center_horizontal"
@@ -205,7 +247,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:padding="20dp"
+                android:padding="10dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -217,21 +259,27 @@
                     android:id="@+id/eventNotificationTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@null"
+                    android:background="@drawable/border_style"
+                    android:backgroundTint="@color/colorPrimaryDark"
+
                     android:textColor="#fff"
                     android:textSize="16sp"
                     android:textColorHint="#e9e9e9"
                     android:focusableInTouchMode="false"
-                    android:hint="Select Time"/>
+                    android:hint="Select Time"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"/>
             </LinearLayout>
-            <TextView
+            <Button
                 android:id="@+id/addEvent"
-                android:layout_gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="200dp"
                 android:layout_marginTop="40dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:text="Add New Event"
-                android:textSize="25dp"
+                android:textSize="18dp"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 android:background="#fff"/>

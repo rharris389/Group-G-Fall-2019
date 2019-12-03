@@ -92,13 +92,7 @@ public class AddGoalActivity extends Activity {
                             Toast.makeText(AddGoalActivity.this, "Goal Could not be added, please try again", Toast.LENGTH_SHORT).show();
                             break;
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
 

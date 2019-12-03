@@ -11,7 +11,7 @@
         android:layout_width="150dp"
         android:layout_marginTop="150dp"
         android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/goal"/>
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_below="@+id/icon"
@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="20dp"
             android:padding="10dp"
             android:orientation="horizontal">
@@ -36,12 +37,18 @@
                 android:id="@+id/goalName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
+
                 android:textColor="#fff"
                 android:layout_marginStart="10dp"
                 android:textSize="15sp"
                 android:textColorHint="#e9e9e9"
-                android:hint="Input Goal Name"/>
+                android:hint="Input Goal Name"
+                android:background="@drawable/border_style"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"/>
         </LinearLayout>
         <LinearLayout
             android:gravity="center_horizontal"
@@ -62,19 +69,25 @@
                 android:id="@+id/goalNotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
+
                 android:textColor="#fff"
                 android:layout_marginStart="10dp"
                 android:textSize="15sp"
                 android:textColorHint="#e9e9e9"
                 android:hint="Input Goal Notes"
+                android:background="@drawable/border_style"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
                 />
         </LinearLayout>
         <Button
             android:id="@+id/addGoalButton"
             android:layout_gravity="center_horizontal"
             android:layout_width="200dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:layout_height="wrap_content"
             android:text="Add Goal"
             android:textColor="@color/black"

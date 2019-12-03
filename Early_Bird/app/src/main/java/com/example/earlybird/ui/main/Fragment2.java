@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -168,7 +170,7 @@ public class Fragment2 extends Fragment {
             }
         });
 
-        final Button showCompletedGoals = View.findViewById(R.id.showCompletedGoals);
+        final TextView showCompletedGoals = View.findViewById(R.id.showCompletedGoals);
         showCompletedGoals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
