@@ -14,6 +14,7 @@ urlpatterns = [
         "EditEventForUser/<str:username>/<str:name>/<str:start>/<str:end>/<str:notification>/<str:frequency>/<str:property>/<str:newData>/",
         views.EditEventForUser
     ),
+    path("GetEventById/<int:id>/", views.GetEventById),
     path("GetAllEvents/", views.GetAllEvents),
     path("GetEventsInTimeRange/<str:start>/<str:end>/", views.GetEventsInTimeRange),
     path("GetEventsInTimeRangeForUser/<str:username>/<str:start>/<str:end>/", views.GetEventsInTimeRangeForUser),
