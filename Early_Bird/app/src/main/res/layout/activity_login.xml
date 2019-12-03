@@ -9,9 +9,10 @@
         android:id="@+id/icon"
         android:layout_centerHorizontal="true"
         android:layout_width="150dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="80dp"
         android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/early_bird"/>
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_below="@+id/icon"
@@ -33,15 +34,20 @@
                 android:textSize="17sp"
                 android:text="@string/Username"/>
             <EditText
+                android:inputType="text"
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
+                android:layout_height="35dp"
+                android:background="@drawable/border_style"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:textColor="#fff"
                 android:layout_marginStart="10dp"
                 android:textSize="15sp"
                 android:textColorHint="#e9e9e9"
-                android:hint="@string/UsernameInput"/>
+                android:hint="@string/UsernameInput"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                />
         </LinearLayout>
         <LinearLayout
             android:gravity="center_horizontal"
@@ -49,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="50dp"
             android:padding="10dp"
             android:orientation="horizontal">
             <TextView
@@ -61,13 +68,16 @@
                 android:inputType="textPassword"
                 android:id="@+id/userPassword"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
+                android:layout_height="35dp"
+                android:background="@drawable/border_style"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:textColor="#fff"
                 android:layout_marginStart="10dp"
                 android:textSize="15sp"
                 android:textColorHint="#e9e9e9"
                 android:hint="@string/PasswordInput"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 />
         </LinearLayout>
         <Button
@@ -76,6 +86,7 @@
             android:layout_width="200dp"
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
+            android:textSize="18dp"
             android:text="@string/Login"
             android:textColor="@color/colorPrimary"
             android:background="#fff"/>
