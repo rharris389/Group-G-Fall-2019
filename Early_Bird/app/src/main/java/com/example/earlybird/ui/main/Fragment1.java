@@ -28,7 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import java.util.Date;
 
 
 public class Fragment1 extends Fragment {
@@ -36,7 +36,7 @@ public class Fragment1 extends Fragment {
     private int currentMonth = 0;
     private int currentYear = 0;
 
-    Calendar calendar;
+    private Calendar calendar;
 
     @Nullable
     @Override
@@ -71,7 +71,7 @@ public class Fragment1 extends Fragment {
 
                 //get values for GetEvents request
                 String selectedDate = (year + "-" + (month + 1) + "-" + dayOfMonth);
-                String selectedDateAm = (selectedDate + "T" + "00:00:00");
+                String selectedDateAm = (selectedDate + "T" + "00:00:01");
                 String selectedDatePm = (selectedDate + "T" + "23:59:59");
                 selectedFullDate.setText("Selected Date: " + (month + 1) + "/" + dayOfMonth + "/" + year);
 
@@ -80,7 +80,8 @@ public class Fragment1 extends Fragment {
                 currentYear = year;
 
                 //Request
-                String url = "http://10.0.2.2:8080/GetEventsInTimeRangeForUser/" + getUsername + "/" + selectedDateAm + "/" + selectedDatePm + "/";
+                String url = "http://10.0.2.2:8080/GetEventsInTimeRangeForUser/" + getUsername + "/" + selectedDatePm + "Z/" + selectedDateAm+ "Z/";
+                Log.i("URL",url);
                 StringRequest GetEventsInTimeRangeForUser = new StringRequest(url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -89,31 +90,31 @@ public class Fragment1 extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.optJSONObject(i);
 
-                                //TODO decide what information will be shown on the listView and what happens when items in the listview are selected
-                                //Integer getEventId = object.getInt("Id");
                                 String getEventName = object.getString("Name");
                                 String getStartDate = object.getString("StartDate");
-                                //String getEndDate = object.getString("EndDate");
-                                //String getNotificationDate = object.getString("NotificationDate");
-                                //Boolean getIsGoal = object.getBoolean("IsGoal");
-                                //String getFrequency = object.getString("Frequency");
-                                //Integer getUserId = object.getInt("UserId");
+                                String getEndDateTime = object.getString("EndDate");
+
+                                String getStartTime = "";
+                                String getEndTime = "";
+                                String getEndDate = "";
+
+                                if (getStartDate.length() > 4)
+                                {
+                                    getStartTime = getStartDate.substring(11,16);
+                                }
+                                if (getEndDateTime.length() > 4)
+                                {
+                                    getEndTime = getEndDateTime.substring(11,16);
+                                    getEndDate = getEndDateTime.substring(0,10);
+                                }
+
 
                                 if (getEventName != null) {
-                                    eventsOnDay.add(getEventName+getStartDate);
+                                    eventsOnDay.add(getEventName + "\n Starts: " + getStartTime + " Ends: " + getEndTime + " on " + getEndDate);
                                 }
                             }
                             arrayAdapter.notifyDataSetChanged();
                             Log.i("JSON", String.valueOf(jsonArray));
-
-                                //Log.i("EventId", String.valueOf(getEventId));
-                                //Log.i("EventName", getEventName);
-                                //Log.i("StartDate", getStartDate);
-                                //Log.i("EndDate", getEndDate);
-                                //Log.i("NotificationDate", getNotificationDate);
-                                //Log.i("IsGoal", String.valueOf(getIsGoal));
-                                //Log.i("Frequency", getFrequency);
-                                //Log.i("UserId", String.valueOf(getUserId));
 
                         } catch (JSONException e) {
                             e.printStackTrace();

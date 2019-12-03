@@ -4,11 +4,11 @@
     <string name="tab_text_2">Goals</string>
     <string name="tab_text_3">Account</string>
     <string name="hint">Enter Event Description</string>
-    <string name="Register">Register</string>
+    <string name="Register"><u>Register</u></string>
     <string name="Login">Login</string>
-    <string name="PasswordInput">Please input Password</string>
-    <string name="UsernameInput">Please input Username</string>
-
+    <string name="PasswordInput"> Please input Password</string>
+    <string name="UsernameInput"> Please input Username</string>
+    <string name="select">Select</string>
     <string name="Username">Username:</string>
     <string name="UsernameHint">input Desired Username</string>
     <string name="Email">E-mail:</string>
@@ -22,4 +22,12 @@
     <string name="LastName">Last Name:</string>
     <string name="LastNameHint">input your Last Name</string>
     <string name="EditAccount">Edit Account Info</string>
+
+    <string-array name="frequency_arrays">
+        <item><font size="15" color="#e9e9e9">Daily</font></item>
+        <item><font size="15" color="#e9e9e9">Weekly</font></item>
+        <item><font size="15" color="#e9e9e9">Bi-Weekly</font></item>
+        <item><font size="15" color="#e9e9e9">Monthly</font></item>
+    </string-array>
+
 </resources>
