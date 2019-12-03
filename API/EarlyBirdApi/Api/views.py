@@ -162,6 +162,20 @@ def EditEventForUser(request, username, name, start, end, notification, frequenc
 
 
 @csrf_exempt
+def GetEventById(request, id):
+    if request.method != "GET":
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        event = Event.objects.get(Id=id)
+    except Event.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    eventData = EventSerializer(event)
+    return JsonResponse(eventData.data)
+
+
+@csrf_exempt
 def GetEventsInTimeRange(request, start, end):
     if request.method != "GET":
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
