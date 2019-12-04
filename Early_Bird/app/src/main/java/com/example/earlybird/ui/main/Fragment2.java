@@ -1,5 +1,4 @@
 package com.example.earlybird.ui.main;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -32,9 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Fragment2 extends Fragment {
-
 
     @Nullable
     @Override
@@ -56,7 +52,7 @@ public class Fragment2 extends Fragment {
         Log.i("Username: ",getUsername);
 
         //Request Incompleted Goals
-        String url = "http://10.0.2.2:8080/GetAllIncompletedGoalsForUser/" + getUsername + "/";
+        String url = "http://10.0.2.2:8000/GetAllIncompletedGoalsForUser/" + getUsername + "/";
         StringRequest GetAllIncompletedGoalsForUser = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -65,7 +61,6 @@ public class Fragment2 extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.optJSONObject(i);
 
-                        //TODO decide what information will be shown on the listView, set what happens when values in listView are clicked
                         String getGoalName = object.getString("Name");
                         Integer getGoalId = object.getInt("Id");
 
@@ -89,13 +84,11 @@ public class Fragment2 extends Fragment {
 
             @Override
             public void onErrorResponse (VolleyError error){
-                //TODO distinguish handling of different errors from server: 404,400
             }
         });
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         requestQueue.add(GetAllIncompletedGoalsForUser);
-
 
         final ListView listViewCompletedGoals = View.findViewById(R.id.completedGoalsListView);
         final ArrayList<String> completeGoalsDisplay = new ArrayList<>();
@@ -105,7 +98,7 @@ public class Fragment2 extends Fragment {
         listViewCompletedGoals.setAdapter(completedGoalsAdapter);
 
         //Request Completed Goals
-        String urlCompletedGoals = "http://10.0.2.2:8080/GetAllCompletedGoalsForUser/" + getUsername + "/";
+        String urlCompletedGoals = "http://10.0.2.2:8000/GetAllCompletedGoalsForUser/" + getUsername + "/";
         StringRequest GetAllCompletedGoalsForUser = new StringRequest(urlCompletedGoals, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -114,7 +107,6 @@ public class Fragment2 extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.optJSONObject(i);
 
-                        //TODO decide what information will be shown on the listView, set what happens when values in listView are clicked
                         String getGoalName = object.getString("Name");
                         Integer getGoalId = object.getInt("Id");
 
@@ -138,7 +130,6 @@ public class Fragment2 extends Fragment {
 
             @Override
             public void onErrorResponse (VolleyError error){
-                //TODO distinguish handling of different errors from server: 404,400
             }
         });
 
