@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -22,14 +23,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.earlybird.AddEventActivity;
+import com.example.earlybird.EditEventActivity;
 import com.example.earlybird.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 
 public class Fragment1 extends Fragment {
     private int currentDay = 0;
@@ -49,6 +49,8 @@ public class Fragment1 extends Fragment {
         //prepare listView, ArrayAdapter, ArrayList; set adapter
         final ListView listView = View.findViewById(R.id.listView);
         final ArrayList<String> eventsOnDay = new ArrayList<>();
+        final ArrayList<Integer> eventsId = new ArrayList<>();
+
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, eventsOnDay);
         listView.setAdapter(arrayAdapter);
 
@@ -68,6 +70,7 @@ public class Fragment1 extends Fragment {
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 //Clear listView
                 eventsOnDay.clear();
+                eventsId.clear();
 
                 //get values for GetEvents request
                 String selectedDate = (year + "-" + (month + 1) + "-" + dayOfMonth);
@@ -80,7 +83,7 @@ public class Fragment1 extends Fragment {
                 currentYear = year;
 
                 //Request
-                String url = "http://10.0.2.2:8080/GetEventsInTimeRangeForUser/" + getUsername + "/" + selectedDatePm + "Z/" + selectedDateAm+ "Z/";
+                String url = "http://10.0.2.2:8000/GetEventsInTimeRangeForUser/" + getUsername + "/" + selectedDatePm + "Z/" + selectedDateAm+ "Z/";
                 Log.i("URL",url);
                 StringRequest GetEventsInTimeRangeForUser = new StringRequest(url, new Response.Listener<String>() {
                     @Override
@@ -90,27 +93,22 @@ public class Fragment1 extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.optJSONObject(i);
 
+                                Integer eventIdText = object.getInt(("Id"));
                                 String getEventName = object.getString("Name");
                                 String getStartDate = object.getString("StartDate");
                                 String getEndDateTime = object.getString("EndDate");
 
-                                String getStartTime = "";
-                                String getEndTime = "";
-                                String getEndDate = "";
+                                String getStartTime;
+                                String getEndTime;
+                                String getEndDate;
 
-                                if (getStartDate.length() > 4)
-                                {
-                                    getStartTime = getStartDate.substring(11,16);
-                                }
-                                if (getEndDateTime.length() > 4)
-                                {
-                                    getEndTime = getEndDateTime.substring(11,16);
-                                    getEndDate = getEndDateTime.substring(0,10);
-                                }
-
+                                getStartTime = getStartDate.substring(11,16);
+                                getEndTime = getEndDateTime.substring(11,16);
+                                getEndDate = getEndDateTime.substring(0,10);
 
                                 if (getEventName != null) {
                                     eventsOnDay.add(getEventName + "\n Starts: " + getStartTime + " Ends: " + getEndTime + " on " + getEndDate);
+                                    eventsId.add(eventIdText);
                                 }
                             }
                             arrayAdapter.notifyDataSetChanged();
@@ -143,6 +141,21 @@ public class Fragment1 extends Fragment {
                 extras.putInt("STARTDAY", currentDay);
                 extras.putInt("STARTMONTH", currentMonth + 1);
                 extras.putInt("STARTYEAR", currentYear);
+                intent.putExtras(extras);
+                startActivity(intent);
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Bundle extras = new Bundle();
+                Intent intent = new Intent(Fragment1.this.getActivity(), EditEventActivity.class);
+
+                Integer eventSelected = eventsId.get(position);
+                extras.putInt("EventId", eventSelected);
+                extras.putString("Username", getUsername);
+
+                Log.i("Item: ", String.valueOf(eventSelected));
                 intent.putExtras(extras);
                 startActivity(intent);
             }

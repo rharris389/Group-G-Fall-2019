@@ -67,9 +67,6 @@ public class GoalSelectedActivity extends Activity {
                     goalName.setText(getGoalName);
                     goalNotes.setText(getGoalNotes);
 
-                    //goalName.setText(receivedGoalName);
-                    //goalNotes.setText(receivedGoalNotes);
-
                     Log.i("GoalName", getGoalName);
                     Log.i("GoalNotes", getGoalNotes);
 
@@ -81,25 +78,10 @@ public class GoalSelectedActivity extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                //TODO distinguish handling of different errors from server: 404,400
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(GetGoalById);
-        //Log.i("GoalName", String.valueOf(goalName));
-        //goalName.setText(receivedGoalName);
-        //goalNotes.setText(receivedGoalNotes);
-
-/*
-        completeGoal.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View v) {
-
-
-            }
-        });
-
- */
 
         completeGoal.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -111,7 +93,7 @@ public class GoalSelectedActivity extends Activity {
                     String newDataText = "true";
                     String goalIdText = String.valueOf(goalId);
                     try {
-                        URL url = new URL("http://10.0.2.2:8080/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newDataText + "/");
+                        URL url = new URL("http://10.0.2.2:8000/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newDataText + "/");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("PATCH");
 
@@ -127,7 +109,6 @@ public class GoalSelectedActivity extends Activity {
                                 startActivity(new Intent(GoalSelectedActivity.this, MainActivity.class));
                                 Intent intent = new Intent();
                                 intent.setClass(GoalSelectedActivity.this, MainActivity.class);
-                                //TODO: Set tab on return to main activity
                                 startActivity(intent);
                                 break;
                             case 400:
@@ -159,9 +140,8 @@ public class GoalSelectedActivity extends Activity {
                 String isCompletedText = isCompleted;
                 String usernameText = username;
 
-
                 try {
-                    URL url = new URL("http://10.0.2.2:8080/DeleteGoalForUser/" + usernameText + "/" + goalNameText + "/" + isCompletedText + "/" + goalNotesText + "/");
+                    URL url = new URL("http://10.0.2.2:8000/DeleteGoalForUser/" + usernameText + "/" + goalNameText + "/" + isCompletedText + "/" + goalNotesText + "/");
                     Log.i("URL", String.valueOf(url));
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("DELETE");
@@ -173,12 +153,9 @@ public class GoalSelectedActivity extends Activity {
                     switch (responseCode){
                         case 200:
                             Toast.makeText(GoalSelectedActivity.this, "Delete Successful", Toast.LENGTH_LONG).show();
-                            //startActivity(new Intent(GoalSelectedActivity.this,  pager.setCurrentItem(1))); pager.setCurrentItem(1);
                             Intent intent = new Intent();
                             intent.setClass(GoalSelectedActivity.this, MainActivity.class);
-                            //
                             startActivity(intent);
-
                             break;
                         case 400:
                             Toast.makeText(GoalSelectedActivity.this, "Error, Bad Request", Toast.LENGTH_LONG).show();
@@ -186,7 +163,6 @@ public class GoalSelectedActivity extends Activity {
                         case 404:
                             Toast.makeText(GoalSelectedActivity.this, "Error, not found", Toast.LENGTH_LONG).show();
                             break;
-
                     }
                 } catch (ProtocolException e) {
                     e.printStackTrace();
@@ -195,7 +171,6 @@ public class GoalSelectedActivity extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
 
             }
         });
@@ -211,7 +186,7 @@ public class GoalSelectedActivity extends Activity {
                     String propertyText = "Name";
                     String goalIdText = String.valueOf(goalId);
                     try {
-                        URL url = new URL("http://10.0.2.2:8080/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newNameText + "/");
+                        URL url = new URL("http://10.0.2.2:8000/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newNameText + "/");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("PATCH");
 
@@ -227,7 +202,6 @@ public class GoalSelectedActivity extends Activity {
                                 startActivity(new Intent(GoalSelectedActivity.this, MainActivity.class));
                                 Intent intent = new Intent();
                                 intent.setClass(GoalSelectedActivity.this, MainActivity.class);
-                                //TODO: Set tab on return to main activity
                                 startActivity(intent);
                                 break;
                             case 400:
@@ -254,7 +228,7 @@ public class GoalSelectedActivity extends Activity {
                     String propertyText = "Notes";
                     String goalIdText = String.valueOf(goalId);
                     try {
-                        URL url = new URL("http://10.0.2.2:8080/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newNotesText + "/");
+                        URL url = new URL("http://10.0.2.2:8000/EditGoalById/" + goalIdText + "/" + propertyText + "/" + newNotesText + "/");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("PATCH");
 
@@ -270,7 +244,6 @@ public class GoalSelectedActivity extends Activity {
                                 startActivity(new Intent(GoalSelectedActivity.this, MainActivity.class));
                                 Intent intent = new Intent();
                                 intent.setClass(GoalSelectedActivity.this, MainActivity.class);
-                                //TODO: Set tab on return to main activity
                                 startActivity(intent);
                                 break;
                             case 400:
@@ -290,7 +263,6 @@ public class GoalSelectedActivity extends Activity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
 
                 }
             }

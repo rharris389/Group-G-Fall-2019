@@ -102,7 +102,7 @@ public class RegisterActivity extends Activity {
                     String passwordHashSave = Base64.getEncoder().encodeToString(passwordHash);
                     try {
 
-                        URL url = new URL("http://10.0.2.2:8080/AddUser/");
+                        URL url = new URL("http://10.0.2.2:8000/AddUser/");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -150,14 +150,12 @@ public class RegisterActivity extends Activity {
                         e.printStackTrace();
                     }
 
-
                         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                         finish();
 
                     }else{
                         Toast.makeText(RegisterActivity.this, "Password Does not match, try again", Toast.LENGTH_SHORT).show();
                     }
-
                 }
             });
         }

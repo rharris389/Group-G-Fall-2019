@@ -10,15 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 public class AddGoalActivity extends Activity {
@@ -37,11 +33,9 @@ public class AddGoalActivity extends Activity {
         goalName = findViewById(R.id.goalName);
         goalNotes = findViewById(R.id.goalNotes);
 
-
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         getUserId = sharedPreferences.getInt("UserId", 0);
         isCompleted = false;
-
 
         final Button addGoalButton = findViewById(R.id.addGoalButton);
         addGoalButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +48,7 @@ public class AddGoalActivity extends Activity {
 
                 try {
 
-                    URL url = new URL("http://10.0.2.2:8080/AddGoal/");
+                    URL url = new URL("http://10.0.2.2:8000/AddGoal/");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -70,7 +64,6 @@ public class AddGoalActivity extends Activity {
                     jsonObject.put("IsCompleted", isCompleted);
                     jsonObject.put("Notes", goalNotesText);
                     jsonObject.put("UserId", getUserId);
-
 
                     Log.i("JSON", jsonObject.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());

@@ -11,11 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,13 +33,11 @@ public class AccountEditActivity extends Activity {
     //define variables
     Integer getUserId;
     String getUsername, getEmail,getGender, getFirstName, getLastName;
-    String change;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editaccount);
-
 
     //Get UserInfo from sharedPreferences
     SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
@@ -78,13 +73,10 @@ public class AccountEditActivity extends Activity {
         Log.i("FirstName", getFirstName);
         Log.i("LastName", getLastName);
 
-    //TODO Call modified register(update) activity to adjust account info
     final Button editAccount = findViewById(R.id.editAccount);
         editAccount.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(android.view.View v) {
-
-            //TODO:add update method
 
             String usernameText = username.getText().toString().trim();
             String userEmailText = userEmail.getText().toString().trim();
@@ -94,7 +86,6 @@ public class AccountEditActivity extends Activity {
             String userPasswordText = userPassword.getText().toString().trim();
             String userConfirmPasswordText = userConfirmPassword.getText().toString().trim();
 
-
             if (userEmailText.equals(getEmail)) {
                 //nothing
             } else {
@@ -102,7 +93,7 @@ public class AccountEditActivity extends Activity {
                 String newDataText = userEmailText;
                 //String goalIdText = String.valueOf(goalId);
                 try {
-                    URL url = new URL("http://10.0.2.2:8080/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
+                    URL url = new URL("http://10.0.2.2:8000/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
                     Log.i("url-email", String.valueOf(url));
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("PATCH");
@@ -127,10 +118,6 @@ public class AccountEditActivity extends Activity {
                             Toast.makeText(AccountEditActivity.this, "Forbidden", Toast.LENGTH_SHORT).show();
                             break;
                     }
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -142,7 +129,7 @@ public class AccountEditActivity extends Activity {
                 String newDataText = userGenderText;
                 //String goalIdText = String.valueOf(goalId);
                 try {
-                    URL url = new URL("http://10.0.2.2:8080/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
+                    URL url = new URL("http://10.0.2.2:8000/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
                     Log.i("url-Gender", String.valueOf(url));
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("PATCH");
@@ -167,10 +154,6 @@ public class AccountEditActivity extends Activity {
                             Toast.makeText(AccountEditActivity.this, "Forbidden", Toast.LENGTH_SHORT).show();
                             break;
                     }
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -184,7 +167,7 @@ public class AccountEditActivity extends Activity {
                 String newDataText = userFirstNameText;
                 //String goalIdText = String.valueOf(goalId);
                 try {
-                    URL url = new URL("http://10.0.2.2:8080/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
+                    URL url = new URL("http://10.0.2.2:8000/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
                     Log.i("url-FirstName", String.valueOf(url));
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("PATCH");
@@ -209,23 +192,19 @@ public class AccountEditActivity extends Activity {
                             Toast.makeText(AccountEditActivity.this, "Forbidden", Toast.LENGTH_SHORT).show();
                             break;
                     }
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
             }
             if(userLastNameText.equals(getLastName)){
-
+            //Move on if match
             }else{
                 String propertyText = "LastName";
                 String newDataText = userLastNameText;
                 //String goalIdText = String.valueOf(goalId);
                 try {
-                    URL url = new URL("http://10.0.2.2:8080/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
+                    URL url = new URL("http://10.0.2.2:8000/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
                     Log.i("url-LastName", String.valueOf(url));
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("PATCH");
@@ -250,14 +229,9 @@ public class AccountEditActivity extends Activity {
                             Toast.makeText(AccountEditActivity.this, "Forbidden", Toast.LENGTH_SHORT).show();
                             break;
                     }
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
 
             if(userPasswordText.equals("******")){
@@ -291,7 +265,7 @@ public class AccountEditActivity extends Activity {
                     String newDataText = userPasswordHash;
                     //String goalIdText = String.valueOf(goalId);
                     try {
-                        URL url = new URL("http://10.0.2.2:8080/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
+                        URL url = new URL("http://10.0.2.2:8000/EditUser/" + usernameText + "/" + propertyText + "/" + newDataText + "/");
                         Log.i("url-Passwd", String.valueOf(url));
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("PATCH");
@@ -316,10 +290,6 @@ public class AccountEditActivity extends Activity {
                                 Toast.makeText(AccountEditActivity.this, "Forbidden", Toast.LENGTH_SHORT).show();
                                 break;
                         }
-                    } catch (ProtocolException e) {
-                        e.printStackTrace();
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -328,7 +298,6 @@ public class AccountEditActivity extends Activity {
                 }
             }
 
-
                 startActivity(new Intent(AccountEditActivity.this, LoginActivity.class));
                 finish();
 
@@ -336,6 +305,5 @@ public class AccountEditActivity extends Activity {
 
 
     });
-
 }
 }

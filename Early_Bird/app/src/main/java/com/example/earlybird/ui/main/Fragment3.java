@@ -1,10 +1,8 @@
 package com.example.earlybird.ui.main;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.earlybird.AccountEditActivity;
-import com.example.earlybird.AddGoalActivity;
-import com.example.earlybird.GoalSelectedActivity;
 import com.example.earlybird.R;
-
+import java.util.Objects;
 
 public class Fragment3 extends Fragment {
 
@@ -28,8 +23,7 @@ public class Fragment3 extends Fragment {
         final View View = inflater.inflate(R.layout.fragment3_layout, container, false);
 
         //Get UserInfo from sharedPreferences
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-        Integer getUserId = sharedPreferences.getInt("UserId", 0);
+        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         String getUsername = sharedPreferences.getString("Username", null);
         String getEmail = sharedPreferences.getString("Email", null);
         String getGender = sharedPreferences.getString("Gender", null);
@@ -52,20 +46,10 @@ public class Fragment3 extends Fragment {
         userFirstName.setText(getFirstName);
         userLastName.setText(getLastName);
 
-        //Logs for testing
-        Log.i("UserId", String.valueOf(getUserId));
-        Log.i("Username", getUsername);
-        Log.i("Gender", getGender);
-        Log.i("FirstName", getFirstName);
-        Log.i("LastName", getLastName);
-
-        //TODO Call modified register(update) activity to adjust account info
         final Button editAccount = View.findViewById(R.id.editAccount);
         editAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(Fragment3.this.getActivity(), AccountEditActivity.class));
-                //Bundle extras = new Bundle();
                 Intent intent = new Intent(Fragment3.this.getActivity(), AccountEditActivity.class);
                 startActivity(intent);
             }

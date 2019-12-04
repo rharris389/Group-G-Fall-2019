@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +23,6 @@ import java.net.HttpURLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-
 
 public class LoginActivity extends Activity {
     private EditText username;
@@ -82,7 +80,7 @@ public class LoginActivity extends Activity {
                     System.out.println("Base64 hash is = " + Base64.getEncoder().encodeToString(passwordHash)) ;
                     final String loginPasswordHash = Base64.getEncoder().encodeToString(passwordHash);
 
-                    String url = "http://10.0.2.2:8080/GetUser/" + usernameText + "/";
+                    String url = "http://10.0.2.2:8000/GetUser/" + usernameText + "/";
                     StringRequest GetUser = new StringRequest(url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -109,15 +107,6 @@ public class LoginActivity extends Activity {
                                 editor.putString("LastName", getLastName);
                                 editor.apply();
 
-                                //Log.i("JSON", jsonObject.toString());
-                                Log.i("UserId", String.valueOf(getUserId));
-                                Log.i("Username", getUsername);
-                                Log.i("Email", getEmail);
-                                Log.i("Password", getPassword);
-                                Log.i("Gender", getGender);
-                                Log.i("FirstName", getFirstName);
-                                Log.i("LastName", getLastName);
-
                                 if(getPassword.equals(loginPasswordHash)) {
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 }else {
@@ -131,7 +120,6 @@ public class LoginActivity extends Activity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            //TODO distinguish handling of different errors from server: 404,400
                             Toast.makeText(LoginActivity.this,"Username Does not Exist - Please Register", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -140,7 +128,6 @@ public class LoginActivity extends Activity {
 
                 }
             });
-
             register.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

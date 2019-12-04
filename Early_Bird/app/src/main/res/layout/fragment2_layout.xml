@@ -35,7 +35,7 @@
         android:text="Add Goal"
         android:textColor="@color/white"
         android:background="@drawable/border_style"
-        android:backgroundTint="@color/colorPrimaryDark"/>
+        android:backgroundTint="@color/colorPrimaryMedium"/>
 
     <LinearLayout
         android:id="@+id/completedGoals"

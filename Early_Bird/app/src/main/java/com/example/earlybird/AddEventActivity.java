@@ -1,4 +1,5 @@
 package com.example.earlybird;
+
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -9,7 +10,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -23,11 +23,8 @@ import org.json.JSONObject;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Calendar;
-
 
 public class AddEventActivity extends Activity {
 
@@ -44,23 +41,11 @@ public class AddEventActivity extends Activity {
 
     Calendar calendar;
     int currentHour, currentMinute, currentMonth, currentDay, currentYear;
-    String eventStartDateSave;
-    String getEventStartDateTimeSave;
-    String eventEndDateSave;
-    String eventEndDateTimeSave;
-    String eventNotificationDateSave;
-    String eventNotificationDateTimeSave;
-    String startDateText;
-    String endTimeText;
-    String eventNameText;
-    String eventFrequencyText;
-    String eventIdText;
-    String amPm;
-    String eventStartDateTime;
-    String eventEndDateTime;
-    String eventNotificationDateTime;
+    String eventStartDateSave,getEventStartDateTimeSave,eventEndDateSave, eventEndDateTimeSave,
+            eventNotificationDateSave,eventNotificationDateTimeSave,startDateText,endTimeText,
+            eventNameText,eventFrequencyText,eventIdText,amPm,eventStartDateTime,eventEndDateTime,
+            eventNotificationDateTime;
     Boolean isGoal;
-
 
     DatePickerDialog startDatePickerDialog;
     TimePickerDialog startTimePickerDialog;
@@ -139,7 +124,6 @@ public class AddEventActivity extends Activity {
                 startTimePickerDialog.show();
             }
         });
-
 
         eventFrequency = findViewById(R.id.eventFrequency);
         eventEndDate.setOnClickListener(new View.OnClickListener() {
@@ -297,14 +281,13 @@ public class AddEventActivity extends Activity {
                 eventFrequencyText = eventFrequency.getSelectedItem().toString();
                 eventIdText = startDateText + endTimeText;
 
-                eventStartDateTime = eventStartDateSave + "T" + getEventStartDateTimeSave + ":00";
-                eventEndDateTime = eventEndDateSave + "T" + eventEndDateTimeSave + ":00";
-                eventNotificationDateTime = eventNotificationDateSave + "T" + eventNotificationDateTimeSave + ":00";
+                eventStartDateTime = eventStartDateSave + "T" + getEventStartDateTimeSave + ":00Z";
+                eventEndDateTime = eventEndDateSave + "T" + eventEndDateTimeSave + ":00Z";
+                eventNotificationDateTime = eventNotificationDateSave + "T" + eventNotificationDateTimeSave + ":00Z";
 
-                //TODO: add GetPreference to submit username along with add Event Request, check format of python view in django
                 try {
 
-                    URL url = new URL("http://10.0.2.2:8080/AddEvent/");
+                    URL url = new URL("http://10.0.2.2:8000/AddEvent/");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -321,7 +304,6 @@ public class AddEventActivity extends Activity {
                     jsonObject.put("StartDate", eventStartDateTime);
                     jsonObject.put("EndDate", eventEndDateTime);
                     jsonObject.put("NotificationDate", eventNotificationDateTime);
-                    jsonObject.put("IsGoal", isGoal);
                     jsonObject.put("Frequency", eventFrequencyText);
                     jsonObject.put("UserId", getUserId);
 
@@ -341,7 +323,7 @@ public class AddEventActivity extends Activity {
                             Toast.makeText(AddEventActivity.this, "Event Added", Toast.LENGTH_SHORT).show();
                             try {
 
-                                URL url1 = new URL("http://10.0.2.2:8080/AddGoal/");
+                                URL url1 = new URL("http://10.0.2.2:8000/AddGoal/");
                                 HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
                                 conn1.setRequestMethod("POST");
                                 conn1.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
