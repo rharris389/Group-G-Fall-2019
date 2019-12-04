@@ -22,9 +22,8 @@ If given enough time, we would like to add friends to the app. Users could add f
 2. navigate to location of API files, it will look something like: 
               cd C:\Users\MyUsername\Desktop\Group-G-Fall-2019-master\Group-G-Fall-2019-master\API\EarlyBirdApi
 3. if starting for the first time instal requirements for the environment:    pip install -r requirements.txt
-4. Start the server in the evironment with the following command: python manage.py runserver 8080
+4. Start the server in the evironment with the following command: python manage.py runserver 8000
 
-I am using port 8080 right now for testing, I am having issues with port 8000, seems it is being hogged by windows, if anyone else if having problems please let me know and I will try to help where I can. 
 
 
 ## Installing a Python Environment(Windows10):
