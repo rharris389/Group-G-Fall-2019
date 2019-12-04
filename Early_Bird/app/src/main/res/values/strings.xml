@@ -24,6 +24,7 @@
     <string name="EditAccount">Edit Account Info</string>
 
     <string-array name="frequency_arrays">
+        <item><font size="15" color="#e9e9e9">One-Time</font></item>
         <item><font size="15" color="#e9e9e9">Daily</font></item>
         <item><font size="15" color="#e9e9e9">Weekly</font></item>
         <item><font size="15" color="#e9e9e9">Bi-Weekly</font></item>
