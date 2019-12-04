@@ -297,9 +297,9 @@ public class AddEventActivity extends Activity {
                 eventFrequencyText = eventFrequency.getSelectedItem().toString();
                 eventIdText = startDateText + endTimeText;
 
-                eventStartDateTime = eventStartDateSave + "T" + getEventStartDateTimeSave + ":00";
-                eventEndDateTime = eventEndDateSave + "T" + eventEndDateTimeSave + ":00";
-                eventNotificationDateTime = eventNotificationDateSave + "T" + eventNotificationDateTimeSave + ":00";
+                eventStartDateTime = eventStartDateSave + "T" + getEventStartDateTimeSave + ":00Z";
+                eventEndDateTime = eventEndDateSave + "T" + eventEndDateTimeSave + ":00Z";
+                eventNotificationDateTime = eventNotificationDateSave + "T" + eventNotificationDateTimeSave + ":00Z";
 
                 //TODO: add GetPreference to submit username along with add Event Request, check format of python view in django
                 try {
@@ -321,7 +321,7 @@ public class AddEventActivity extends Activity {
                     jsonObject.put("StartDate", eventStartDateTime);
                     jsonObject.put("EndDate", eventEndDateTime);
                     jsonObject.put("NotificationDate", eventNotificationDateTime);
-                    jsonObject.put("IsGoal", isGoal);
+                    //jsonObject.put("IsGoal", isGoal);
                     jsonObject.put("Frequency", eventFrequencyText);
                     jsonObject.put("UserId", getUserId);
 
